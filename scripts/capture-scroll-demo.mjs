@@ -4,6 +4,9 @@ import path from "node:path";
 
 const root = process.cwd();
 const chromePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome";
+const siteUrl =
+  process.env.CAPTURE_SITE_URL ||
+  "https://portfolio.alyx-linch.workers.dev";
 const frameDirectory = path.join(root, "webpage", "assets", "scroll-demo-frames");
 const outputPath = path.join(root, "webpage", "assets", "scroll-demo-boomerang.mp4");
 const width = 960;
@@ -26,7 +29,7 @@ const chrome = spawn(
     "--use-angle=swiftshader",
     "--hide-scrollbars",
     `--window-size=${width},${height}`,
-    "http://127.0.0.1:4173/scroll-demo/"
+    `${siteUrl.replace(/\/$/, "")}/scroll-demo/`
   ],
   {
     stdio: ["ignore", "ignore", "inherit", "pipe", "pipe"]

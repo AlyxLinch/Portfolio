@@ -282,29 +282,19 @@ function serializeSettings() {
   return `export const settings = {\n${entries}\n};`;
 }
 
-async function saveSettingsToConfig() {
+async function copySettingsToClipboard() {
   if (!saveButton || !saveStatus) {
     return;
   }
 
   saveButton.disabled = true;
-  saveStatus.textContent = "Saving...";
+  saveStatus.textContent = "Copying...";
 
   try {
-    const response = await fetch("/api/settings", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ settings, settingsSource: serializeSettings() })
-    });
-    const result = await response.json();
-
-    if (!response.ok || !result.ok) {
-      throw new Error(result.error || "Could not save settings.");
-    }
-
-    saveStatus.textContent = "Settings saved to shared/wave-config.js.";
+    await navigator.clipboard.writeText(serializeSettings());
+    saveStatus.textContent = "Settings copied to clipboard.";
   } catch (error) {
-    saveStatus.textContent = `Save failed: ${error.message}`;
+    saveStatus.textContent = `Copy failed: ${error.message}`;
   } finally {
     saveButton.disabled = false;
   }
@@ -320,7 +310,7 @@ function animate(time) {
 }
 
 buildControlCard();
-saveButton?.addEventListener("click", saveSettingsToConfig);
+saveButton?.addEventListener("click", copySettingsToClipboard);
 window.addEventListener("resize", () => {
   wave.setSize(window.innerWidth, window.innerHeight);
   applyCameraPreview();

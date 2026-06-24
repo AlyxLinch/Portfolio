@@ -6,46 +6,25 @@ quality targets a stable frame rate.
 
 ## Pages
 
-- `/` - local wave tuner
+- `/` - redirects to the portfolio case study
 - `/webpage/` - portfolio case study
 - `/scroll-demo/` - clean scroll-effect test page
-
-## Local Development
-
-```bash
-node server.js
-```
-
-Open `http://127.0.0.1:4173/webpage/`.
-
-The local server includes the `/api/settings` endpoint used by the tuner’s
-**Save settings** button. A static deployment serves the visual pages normally,
-but does not provide that local write endpoint.
+- `/index.html` - wave tuner
 
 ## Regenerate The Scroll Demo
-
-With the local server running:
 
 ```bash
 node scripts/capture-scroll-demo.mjs
 ```
 
 This creates `webpage/assets/scroll-demo-boomerang.mp4` from the current shared
-wave settings.
+wave settings using the deployed Cloudflare site. Set `CAPTURE_SITE_URL` to
+override the deployment URL.
 
 ## Deployment
 
-The project can be deployed directly as a static site through Cloudflare Pages:
-
-- Framework preset: None
-- Build command: leave blank
-- Build output directory: `/`
-
-The case study is available at `/webpage/`.
-
-On Cloudflare Pages, `_redirects` sends the public site root to the case study
-while local development keeps `/` available as the tuner.
+The project deploys from GitHub through Cloudflare Workers Static Assets.
+`_redirects` sends the public site root to the case study.
 
 Cloudflare Workers Static Assets deployments use `.assetsignore` to keep Git
-metadata, local server files, credentials, logs, and development scripts out of
-the public deployment.
+metadata and development scripts out of the public deployment.
