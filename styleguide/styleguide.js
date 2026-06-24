@@ -19,8 +19,14 @@ const controls = [
   { property: "--type-display", label: "Display", min: 38, max: 80, step: 1, unit: "px" },
   { property: "--type-h1", label: "H1", min: 30, max: 64, step: 1, unit: "px" },
   { property: "--type-body", label: "Body", min: 14, max: 20, step: 1, unit: "px" },
+  { property: "--gradient-center-x", label: "Gradient X", min: 30, max: 75, step: 1, unit: "%" },
+  { property: "--gradient-center-y", label: "Gradient Y", min: 20, max: 80, step: 1, unit: "%" },
+  { property: "--gradient-base-mix", label: "Gradient light", min: 25, max: 90, step: 1, unit: "%" },
+  { property: "--gradient-falloff", label: "Gradient falloff", min: 45, max: 95, step: 1, unit: "%" },
   { property: "--page-gutter", label: "Page gutter", min: 20, max: 96, step: 2, unit: "px" },
   { property: "--glass-opacity", label: "Glass opacity", min: 0.04, max: 0.4, step: 0.01, unit: "" },
+  { property: "--paper-opacity", label: "Paper opacity", min: 0.6, max: 1, step: 0.01, unit: "" },
+  { property: "--glass-border-opacity", label: "Glass border", min: 0.08, max: 0.6, step: 0.01, unit: "" },
   { property: "--glass-blur", label: "Glass blur", min: 0, max: 40, step: 1, unit: "px" },
   { property: "--shadow-offset", label: "Shadow offset", min: 0, max: 24, step: 1, unit: "px" }
 ];
@@ -128,7 +134,64 @@ function toggleEditor() {
   );
 }
 
+function closeDropdown(dropdown) {
+  dropdown.classList.remove("is-open");
+  dropdown.querySelector(".ds-dropdown__trigger").setAttribute("aria-expanded", "false");
+}
+
+function initializeDropdowns() {
+  document.querySelectorAll("[data-dropdown]").forEach((dropdown) => {
+    const trigger = dropdown.querySelector(".ds-dropdown__trigger");
+    const value = dropdown.querySelector("[data-dropdown-value]");
+    const options = [...dropdown.querySelectorAll(".ds-dropdown__option")];
+
+    trigger.addEventListener("click", () => {
+      const shouldOpen = !dropdown.classList.contains("is-open");
+
+      document.querySelectorAll("[data-dropdown].is-open").forEach(closeDropdown);
+      dropdown.classList.toggle("is-open", shouldOpen);
+      trigger.setAttribute("aria-expanded", String(shouldOpen));
+
+      if (shouldOpen) {
+        options.find((option) => option.getAttribute("aria-selected") === "true")?.focus();
+      }
+    });
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        options.forEach((entry) => entry.setAttribute("aria-selected", "false"));
+        option.setAttribute("aria-selected", "true");
+        value.textContent = option.textContent;
+        closeDropdown(dropdown);
+        trigger.focus();
+      });
+
+      option.addEventListener("keydown", (event) => {
+        const currentIndex = options.indexOf(option);
+
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault();
+          const direction = event.key === "ArrowDown" ? 1 : -1;
+          options[(currentIndex + direction + options.length) % options.length].focus();
+        } else if (event.key === "Escape") {
+          closeDropdown(dropdown);
+          trigger.focus();
+        }
+      });
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    document.querySelectorAll("[data-dropdown].is-open").forEach((dropdown) => {
+      if (!dropdown.contains(event.target)) {
+        closeDropdown(dropdown);
+      }
+    });
+  });
+}
+
 buildControls();
 copyButton.addEventListener("click", copyTokens);
 resetButton.addEventListener("click", resetTokens);
 toggleButton.addEventListener("click", toggleEditor);
+initializeDropdowns();

@@ -26,7 +26,7 @@ body {
 }
 
 .guide-header h1 {
-  color: var(--color-forest);
+  --gradient-text-color: var(--color-forest);
 }
 
 .guide-header nav {
@@ -183,11 +183,21 @@ body {
 }
 
 .section-title h2 {
-  color: var(--color-plum);
+  --gradient-text-color: var(--color-plum);
+  background:
+    radial-gradient(
+      ellipse 58% 82% at var(--gradient-center-x) var(--gradient-center-y),
+      color-mix(in srgb, var(--gradient-text-color) var(--gradient-base-mix), white),
+      var(--gradient-text-color) var(--gradient-falloff)
+    );
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .guide-section--dark .section-title h2 {
-  color: var(--color-yellow);
+  --gradient-text-color: var(--color-yellow);
 }
 
 .specimen {
@@ -275,11 +285,6 @@ body {
 
 .type-stack p {
   margin: 0;
-  color: var(--color-plum);
-}
-
-.type-stack .ds-display {
-  color: var(--color-forest);
 }
 
 .body-sample .ds-body {
@@ -345,6 +350,10 @@ body {
 .form-grid label {
   display: grid;
   gap: 8px;
+}
+
+.form-grid .ds-dropdown__trigger {
+  min-height: 42px;
 }
 
 .form-grid__wide {

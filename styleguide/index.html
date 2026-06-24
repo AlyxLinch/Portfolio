@@ -16,7 +16,7 @@
       <a class="guide-wordmark" href="/webpage/">AL</a>
       <div>
         <p class="ds-label">Portfolio system · v1.0</p>
-        <h1 class="ds-display ds-display--title">Design language</h1>
+        <h1 class="ds-display ds-display--title ds-gradient-text ds-gradient-text--forest">Design language</h1>
       </div>
       <nav aria-label="Style guide navigation">
         <a href="#foundations">Foundations</a>
@@ -92,11 +92,11 @@
             <p class="ds-small">Syne carries identity. Lora carries explanation.</p>
           </div>
           <div class="type-stack">
-            <div><span>Display XL</span><p class="ds-display ds-display--xl">Title XL</p></div>
-            <div><span>Display</span><p class="ds-display ds-display--title">Our services</p></div>
-            <div><span>H1</span><p class="ds-heading ds-heading--h1">Crafting Digital Experiences</p></div>
-            <div><span>H2</span><p class="ds-heading ds-heading--h2">Web Design &amp; Development</p></div>
-            <div><span>H3</span><p class="ds-heading ds-heading--h3">Custom e-commerce solutions</p></div>
+            <div><span>Display XL</span><p class="ds-display ds-display--xl ds-gradient-text ds-gradient-text--forest">Title XL</p></div>
+            <div><span>Display</span><p class="ds-display ds-display--title ds-gradient-text ds-gradient-text--forest">Our services</p></div>
+            <div><span>H1</span><p class="ds-heading ds-heading--h1 ds-gradient-text ds-gradient-text--plum">Crafting Digital Experiences</p></div>
+            <div><span>H2</span><p class="ds-heading ds-heading--h2 ds-gradient-text ds-gradient-text--plum">Web Design &amp; Development</p></div>
+            <div><span>H3</span><p class="ds-heading ds-heading--h3 ds-gradient-text ds-gradient-text--plum">Custom e-commerce solutions</p></div>
             <div><span>H4</span><p class="ds-heading ds-heading--h4">Seamless payment integration</p></div>
             <div><span>Label</span><p class="ds-label">Explore more</p></div>
             <div class="body-sample">
@@ -173,7 +173,7 @@
         <article class="specimen">
           <div class="specimen__label">
             <p class="ds-label">Surfaces</p>
-            <p class="ds-small">Opaque paper for focus; glass for preserving live media.</p>
+            <p class="ds-small">Translucent paper for focus; finer glass for preserving live media.</p>
           </div>
           <div class="surface-stage">
             <div class="ds-paper surface-card">
@@ -196,7 +196,19 @@
           </div>
           <form class="form-grid">
             <label><span class="ds-label">Name</span><input class="ds-input" value="Alyx Linch"></label>
-            <label><span class="ds-label">Service</span><select class="ds-select"><option>Creative development</option><option>UX design</option></select></label>
+            <label>
+              <span class="ds-label">Service</span>
+              <div class="ds-dropdown" data-dropdown>
+                <button class="ds-dropdown__trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                  <span data-dropdown-value>Creative development</span>
+                </button>
+                <div class="ds-dropdown__menu" role="listbox">
+                  <button class="ds-dropdown__option" type="button" role="option" aria-selected="true">Creative development</button>
+                  <button class="ds-dropdown__option" type="button" role="option" aria-selected="false">UX design</button>
+                  <button class="ds-dropdown__option" type="button" role="option" aria-selected="false">Digital identity</button>
+                </div>
+              </div>
+            </label>
             <label class="form-grid__wide"><span class="ds-label">Project note</span><textarea class="ds-input" rows="4">Tell me what should feel different.</textarea></label>
           </form>
         </article>

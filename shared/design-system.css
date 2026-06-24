@@ -72,6 +72,10 @@
   --line-body: 1.6;
   --tracking-display: -0.03em;
   --tracking-label: 0.15em;
+  --gradient-center-x: 56%;
+  --gradient-center-y: 48%;
+  --gradient-base-mix: 58%;
+  --gradient-falloff: 72%;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -91,6 +95,8 @@
   --page-gutter: 48px;
   --glass-opacity: 0.14;
   --glass-blur: 18px;
+  --glass-border-opacity: 0.28;
+  --paper-opacity: 0.88;
   --shadow-offset: 12px;
 }
 
@@ -166,6 +172,36 @@ a {
 .ds-heading--h4 {
   font-size: var(--type-h4);
   line-height: var(--line-heading);
+}
+
+.ds-gradient-text {
+  --gradient-text-color: var(--color-plum);
+  background:
+    radial-gradient(
+      ellipse 58% 82% at var(--gradient-center-x) var(--gradient-center-y),
+      color-mix(in srgb, var(--gradient-text-color) var(--gradient-base-mix), white),
+      var(--gradient-text-color) var(--gradient-falloff)
+    );
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.ds-gradient-text--forest {
+  --gradient-text-color: var(--color-forest);
+}
+
+.ds-gradient-text--plum {
+  --gradient-text-color: var(--color-plum);
+}
+
+.ds-gradient-text--yellow {
+  --gradient-text-color: var(--color-yellow);
+}
+
+.ds-gradient-text--white {
+  --gradient-text-color: var(--color-white);
 }
 
 .ds-label {
@@ -256,7 +292,7 @@ a {
 .ds-paper {
   border: var(--border-thin) solid rgba(37, 22, 5, 0.48);
   border-radius: var(--radius);
-  background: rgba(241, 237, 229, 0.95);
+  background: rgb(241 237 229 / var(--paper-opacity));
   color: var(--color-brown);
   box-shadow:
     var(--shadow-offset)
@@ -266,7 +302,7 @@ a {
 }
 
 .ds-glass {
-  border: var(--border-thin) solid rgba(255, 253, 248, 0.42);
+  border: 0.5px solid rgb(255 253 248 / var(--glass-border-opacity));
   border-radius: var(--radius);
   background: rgba(241, 237, 229, var(--glass-opacity));
   color: var(--color-white);
@@ -276,7 +312,8 @@ a {
 }
 
 .ds-input,
-.ds-select {
+.ds-select,
+.ds-dropdown__trigger {
   width: 100%;
   min-height: 42px;
   border: var(--border-strong) solid var(--color-brown);
@@ -284,6 +321,71 @@ a {
   padding: 8px 10px;
   background: var(--color-cream);
   color: var(--color-brown);
+}
+
+.ds-dropdown {
+  position: relative;
+}
+
+.ds-dropdown__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ds-dropdown__trigger::after {
+  width: 9px;
+  height: 9px;
+  transform: translateY(-2px) rotate(45deg);
+  border-right: var(--border-strong) solid currentColor;
+  border-bottom: var(--border-strong) solid currentColor;
+  content: "";
+}
+
+.ds-dropdown.is-open .ds-dropdown__trigger::after {
+  transform: translateY(3px) rotate(225deg);
+}
+
+.ds-dropdown__menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 4;
+  display: none;
+  width: 100%;
+  border: var(--border-strong) solid var(--color-brown);
+  background: var(--color-cream);
+  box-shadow: 8px 8px 0 rgba(37, 22, 5, 0.2);
+}
+
+.ds-dropdown.is-open .ds-dropdown__menu {
+  display: block;
+}
+
+.ds-dropdown__option {
+  display: block;
+  width: 100%;
+  border: 0;
+  border-bottom: var(--border-thin) solid rgba(37, 22, 5, 0.3);
+  padding: 11px 10px;
+  background: transparent;
+  color: var(--color-brown);
+  text-align: left;
+  cursor: pointer;
+}
+
+.ds-dropdown__option:last-child {
+  border-bottom: 0;
+}
+
+.ds-dropdown__option:hover,
+.ds-dropdown__option:focus-visible,
+.ds-dropdown__option[aria-selected="true"] {
+  background: var(--color-yellow);
+  outline: 0;
 }
 
 .ds-rule {
@@ -309,4 +411,3 @@ a {
     --page-gutter: 24px;
   }
 }
-
