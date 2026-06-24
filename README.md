@@ -42,3 +42,6 @@ The project can be deployed directly as a static site through Cloudflare Pages:
 - Build output directory: `/`
 
 The case study is available at `/webpage/`.
+
+On Cloudflare Pages, `_redirects` sends the public site root to the case study
+while local development keeps `/` available as the tuner.
