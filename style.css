@@ -1,0 +1,233 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: #080812;
+}
+
+#frame-guides {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.frame-guide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  display: grid;
+  place-items: start center;
+  width: 100vw;
+  height: auto;
+  transform: translateX(-50%);
+  border: 1px solid currentColor;
+  color: rgba(255, 255, 255, 0.78);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.42);
+}
+
+.frame-guide::after {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-top: 1px dashed currentColor;
+  content: "";
+  opacity: 0.76;
+}
+
+.frame-guide span {
+  margin-top: 6px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.48);
+  color: currentColor;
+  font-size: 10px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.frame-guide--desktop {
+  aspect-ratio: 16 / 9;
+  color: rgba(255, 234, 97, 0.9);
+}
+
+.frame-guide--tablet {
+  aspect-ratio: 4 / 3;
+  color: rgba(0, 212, 255, 0.86);
+}
+
+.frame-guide--mobile {
+  aspect-ratio: 9 / 16;
+  color: rgba(255, 79, 216, 0.9);
+}
+
+#control-card {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 3;
+  width: min(360px, calc(100vw - 28px));
+  max-height: min(58vh, 520px);
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(9, 12, 22, 0.62);
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(14px);
+}
+
+.control-card__header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(9, 12, 22, 0.74);
+}
+
+.control-card__header h1 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+#save-defaults {
+  flex: 0 0 auto;
+  min-height: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 6px;
+  padding: 0 9px;
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.94);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#save-defaults:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+#save-defaults:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.control-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 10px;
+}
+
+.control {
+  display: grid;
+  grid-template-columns: 76px minmax(98px, 1fr) 54px;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+}
+
+.control label,
+.control output,
+.save-status {
+  font-size: 11px;
+}
+
+.control label {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.control output {
+  justify-self: end;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.control input[type="range"] {
+  width: 100%;
+  accent-color: #ffea61;
+}
+
+.control-section {
+  margin: 6px 0 0;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.control-section:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.control select,
+.control input[type="color"] {
+  min-width: 0;
+  height: 24px;
+  box-sizing: border-box;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.94);
+  font: inherit;
+  font-size: 11px;
+}
+
+.control input[type="color"] {
+  width: 100%;
+  padding: 2px;
+}
+
+.control--toggle input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: #ffea61;
+  cursor: pointer;
+}
+
+.save-status {
+  min-height: 16px;
+  margin: -4px 10px 9px;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+@media (max-width: 680px) {
+  #control-card {
+    right: 10px;
+    bottom: 10px;
+    max-height: 40vh;
+  }
+
+  .frame-guide span {
+    font-size: 9px;
+  }
+
+  .control {
+    grid-template-columns: 70px minmax(90px, 1fr) 42px;
+  }
+
+}

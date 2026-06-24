@@ -1,0 +1,17 @@
+.DS_Store
+
+# Local HTTPS credentials
+certs/
+
+# Local diagnostics and generated capture output
+captures/
+webpage/assets/scroll-demo-frames/
+
+# Temporary working files
+temp.txt
+
+# Dependencies and environment files
+node_modules/
+.env
+.env.*
+

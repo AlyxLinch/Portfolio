@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>HTML Test File</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <div id="mesh-bg"></div>
+    <div id="frame-guides" aria-hidden="true">
+      <div class="frame-guide frame-guide--desktop"><span>Desktop 16:9</span></div>
+      <div class="frame-guide frame-guide--tablet"><span>Tablet 4:3</span></div>
+      <div class="frame-guide frame-guide--mobile"><span>Mobile 9:16</span></div>
+    </div>
+    <section id="control-card" aria-label="Wave controls">
+      <div class="control-card__header">
+        <h1>Wave Tuner</h1>
+        <button id="save-defaults" type="button">Save settings</button>
+      </div>
+      <div id="control-list" class="control-list"></div>
+      <p id="save-status" class="save-status" aria-live="polite"></p>
+    </section>
+  </body>
+
+<script type="module" src="/main.js"></script>
+
+</html>
