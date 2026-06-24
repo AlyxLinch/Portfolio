@@ -1,0 +1,20 @@
+**/.git
+**/.git/**
+**/.wrangler
+**/.wrangler/**
+**/.DS_Store
+**/node_modules
+**/node_modules/**
+
+certs
+certs/**
+captures
+captures/**
+scripts
+scripts/**
+
+.gitignore
+README.md
+Professional Statement
+server.js
+temp.txt

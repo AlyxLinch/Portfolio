@@ -45,3 +45,7 @@ The case study is available at `/webpage/`.
 
 On Cloudflare Pages, `_redirects` sends the public site root to the case study
 while local development keeps `/` available as the tuner.
+
+Cloudflare Workers Static Assets deployments use `.assetsignore` to keep Git
+metadata, local server files, credentials, logs, and development scripts out of
+the public deployment.
