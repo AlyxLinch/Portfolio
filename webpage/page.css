@@ -1,54 +1,7 @@
-@font-face {
-  font-family: "Syne";
-  src: url("/webpage/assets/syne-variable.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400 800;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Lora";
-  src: url("/webpage/assets/lora-regular.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Lora";
-  src: url("/webpage/assets/lora-medium.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Lora";
-  src: url("/webpage/assets/lora-semibold.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 600;
-  font-display: swap;
-}
-
-:root {
-  color-scheme: dark;
-  --forest: #254441;
-  --plum: #5d0e41;
-  --yellow: #ffb236;
-  --brown: #251605;
-  --cream: #f1ede5;
-  --cyan: #00e2cc;
-  --pink: #ff1d92;
-  --orange: #ff5927;
-  --white: #fffdf8;
-}
-
-* {
-  box-sizing: border-box;
-}
+@import url("/shared/design-system.css");
 
 html {
-  scroll-behavior: smooth;
+  color-scheme: dark;
 }
 
 html,
@@ -61,7 +14,7 @@ body {
 
 body {
   overflow-x: hidden;
-  font-family: "Lora", Georgia, serif;
+  font-family: var(--font-body);
 }
 
 a {

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="The interactive design system and visual language for Alyx Linch's portfolio."
+    >
+    <title>Portfolio Design System</title>
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/styleguide/styleguide.css">
+  </head>
+  <body>
+    <header class="guide-header">
+      <a class="guide-wordmark" href="/webpage/">AL</a>
+      <div>
+        <p class="ds-label">Portfolio system · v1.0</p>
+        <h1 class="ds-display ds-display--title">Design language</h1>
+      </div>
+      <nav aria-label="Style guide navigation">
+        <a href="#foundations">Foundations</a>
+        <a href="#components">Components</a>
+        <a href="#patterns">Patterns</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="guide-intro">
+        <div>
+          <p class="ds-label">Purpose</p>
+          <h2 class="ds-display ds-display--xl">One visual system. Every page.</h2>
+        </div>
+        <p class="guide-intro__body">
+          This page is the working source of truth for typography, color, spacing,
+          interface components, content patterns, and motion. Use the controls to
+          explore changes. Copy the resulting token block when a direction is ready
+          to become part of the shared stylesheet.
+        </p>
+      </section>
+
+      <aside class="token-editor" aria-label="Live design token controls">
+        <div class="token-editor__header">
+          <strong>Live token editor</strong>
+          <div class="token-editor__actions">
+            <button id="toggle-editor" class="icon-command" type="button" title="Collapse editor" aria-label="Collapse editor">−</button>
+            <button id="reset-tokens" class="icon-command" type="button" title="Reset tokens" aria-label="Reset tokens">↺</button>
+          </div>
+        </div>
+        <div id="token-controls" class="token-controls"></div>
+        <button id="copy-tokens" class="ds-button ds-button--yellow" type="button">Copy CSS tokens</button>
+        <output id="copy-status" aria-live="polite"></output>
+      </aside>
+
+      <section id="foundations" class="guide-section">
+        <header class="section-title">
+          <span>01</span>
+          <div>
+            <p class="ds-label">Foundations</p>
+            <h2 class="ds-heading ds-heading--h1">The recognizable ingredients</h2>
+          </div>
+        </header>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Color</p>
+            <p class="ds-small">Core identity and high-energy accents.</p>
+          </div>
+          <div class="swatch-grid">
+            <div class="swatch swatch--forest"><strong>Forest</strong><code>#254441</code></div>
+            <div class="swatch swatch--plum"><strong>Plum</strong><code>#5D0E41</code></div>
+            <div class="swatch swatch--yellow"><strong>Yellow</strong><code>#FFB236</code></div>
+            <div class="swatch swatch--brown"><strong>Brown</strong><code>#251605</code></div>
+            <div class="swatch swatch--cyan"><strong>Cyan</strong><code>#00E2CC</code></div>
+            <div class="swatch swatch--pink"><strong>Pink</strong><code>#FF1D92</code></div>
+            <div class="swatch swatch--orange"><strong>Orange</strong><code>#FF5927</code></div>
+            <div class="swatch swatch--cream"><strong>Cream</strong><code>#F1EDE5</code></div>
+          </div>
+          <div class="opacity-scale" aria-label="Brown opacity scale">
+            <span style="--opacity: 1">100%</span>
+            <span style="--opacity: .85">85%</span>
+            <span style="--opacity: .65">65%</span>
+            <span style="--opacity: .4">40%</span>
+            <span style="--opacity: .2">20%</span>
+            <span style="--opacity: .1">10%</span>
+          </div>
+        </article>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Typography</p>
+            <p class="ds-small">Syne carries identity. Lora carries explanation.</p>
+          </div>
+          <div class="type-stack">
+            <div><span>Display XL</span><p class="ds-display ds-display--xl">Title XL</p></div>
+            <div><span>Display</span><p class="ds-display ds-display--title">Our services</p></div>
+            <div><span>H1</span><p class="ds-heading ds-heading--h1">Crafting Digital Experiences</p></div>
+            <div><span>H2</span><p class="ds-heading ds-heading--h2">Web Design &amp; Development</p></div>
+            <div><span>H3</span><p class="ds-heading ds-heading--h3">Custom e-commerce solutions</p></div>
+            <div><span>H4</span><p class="ds-heading ds-heading--h4">Seamless payment integration</p></div>
+            <div><span>Label</span><p class="ds-label">Explore more</p></div>
+            <div class="body-sample">
+              <span>Body</span>
+              <p class="ds-body">
+                Design decisions should feel expressive at first glance and remain
+                legible under repeated use. Lora gives long-form case studies a more
+                human rhythm beside Syne’s geometric display voice.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Spacing</p>
+            <p class="ds-small">A four-pixel base with deliberately large editorial jumps.</p>
+          </div>
+          <div class="spacing-scale">
+            <div><span style="width: var(--space-1)"></span><code>4</code></div>
+            <div><span style="width: var(--space-2)"></span><code>8</code></div>
+            <div><span style="width: var(--space-3)"></span><code>12</code></div>
+            <div><span style="width: var(--space-4)"></span><code>16</code></div>
+            <div><span style="width: var(--space-5)"></span><code>24</code></div>
+            <div><span style="width: var(--space-6)"></span><code>32</code></div>
+            <div><span style="width: var(--space-7)"></span><code>48</code></div>
+            <div><span style="width: var(--space-8)"></span><code>64</code></div>
+            <div><span style="width: var(--space-9)"></span><code>96</code></div>
+          </div>
+        </article>
+      </section>
+
+      <section id="components" class="guide-section guide-section--dark">
+        <header class="section-title">
+          <span>02</span>
+          <div>
+            <p class="ds-label">Components</p>
+            <h2 class="ds-heading ds-heading--h1">Reusable interface vocabulary</h2>
+          </div>
+        </header>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Buttons</p>
+            <p class="ds-small">Square, emphatic, and edged by a second accent color.</p>
+          </div>
+          <div class="button-groups">
+            <div>
+              <span class="ds-label">Primary</span>
+              <div class="button-row">
+                <button class="ds-button ds-button--forest">Button</button>
+                <button class="ds-button ds-button--plum">Button</button>
+                <button class="ds-button ds-button--yellow">Button</button>
+              </div>
+            </div>
+            <div>
+              <span class="ds-label">Secondary</span>
+              <div class="button-row">
+                <button class="ds-button ds-button--outline">Button</button>
+                <button class="ds-button ds-button--outline" style="color: var(--color-plum)">Button</button>
+                <button class="ds-button ds-button--outline" style="color: var(--color-forest)">Button</button>
+              </div>
+            </div>
+            <div>
+              <span class="ds-label">Text links</span>
+              <div class="button-row">
+                <a class="ds-link" href="#components">View project <span>↗</span></a>
+                <a class="ds-link" href="#patterns">Read case study <span>↓</span></a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Surfaces</p>
+            <p class="ds-small">Opaque paper for focus; glass for preserving live media.</p>
+          </div>
+          <div class="surface-stage">
+            <div class="ds-paper surface-card">
+              <p class="ds-label">Paper panel</p>
+              <h3 class="ds-heading ds-heading--h2">Editorial focus</h3>
+              <p class="ds-body">Use over busy backgrounds when long-form reading is the priority.</p>
+            </div>
+            <div class="ds-glass surface-card">
+              <p class="ds-label">Glass panel</p>
+              <h3 class="ds-heading ds-heading--h2">Media stays visible</h3>
+              <p class="ds-body">Use sparingly where the background is part of the story.</p>
+            </div>
+          </div>
+        </article>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Forms</p>
+            <p class="ds-small">Utility controls use the same square, high-contrast language.</p>
+          </div>
+          <form class="form-grid">
+            <label><span class="ds-label">Name</span><input class="ds-input" value="Alyx Linch"></label>
+            <label><span class="ds-label">Service</span><select class="ds-select"><option>Creative development</option><option>UX design</option></select></label>
+            <label class="form-grid__wide"><span class="ds-label">Project note</span><textarea class="ds-input" rows="4">Tell me what should feel different.</textarea></label>
+          </form>
+        </article>
+      </section>
+
+      <section id="patterns" class="guide-section">
+        <header class="section-title">
+          <span>03</span>
+          <div>
+            <p class="ds-label">Patterns</p>
+            <h2 class="ds-heading ds-heading--h1">How the pieces compose</h2>
+          </div>
+        </header>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Project index</p>
+            <p class="ds-small">Dense rows for scanning, with color reserved for emphasis.</p>
+          </div>
+          <div class="project-list">
+            <article><span>01</span><h3>Live Wave Background</h3><p>Creative development · WebGL</p><a href="/webpage/">↗</a></article>
+            <article><span>02</span><h3>Commerce Platform</h3><p>Product design · Development</p><a href="#patterns">↗</a></article>
+            <article><span>03</span><h3>Editorial Identity</h3><p>Brand system · Art direction</p><a href="#patterns">↗</a></article>
+          </div>
+        </article>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Case-study rhythm</p>
+            <p class="ds-small">Alternate immersion, explanation, evidence, and reflection.</p>
+          </div>
+          <div class="rhythm-diagram">
+            <div class="rhythm-diagram__live"><span>01</span><strong>Live visual</strong></div>
+            <div class="rhythm-diagram__paper"><span>02</span><strong>Context</strong></div>
+            <div class="rhythm-diagram__accent"><span>03</span><strong>Process</strong></div>
+            <div class="rhythm-diagram__glass"><span>04</span><strong>Outcome</strong></div>
+          </div>
+        </article>
+
+        <article class="specimen">
+          <div class="specimen__label">
+            <p class="ds-label">Rules</p>
+            <p class="ds-small">Guardrails that keep future pages related.</p>
+          </div>
+          <div class="rules-grid">
+            <div><strong>Do</strong><p>Let one expressive visual carry the viewport.</p></div>
+            <div><strong>Do</strong><p>Use cream sheets for sustained reading.</p></div>
+            <div><strong>Do</strong><p>Use accent colors as signals, not wallpaper.</p></div>
+            <div><strong>Avoid</strong><p>Rounded cards, soft SaaS layouts, and nested panels.</p></div>
+            <div><strong>Avoid</strong><p>Long display copy set in the body typeface.</p></div>
+            <div><strong>Avoid</strong><p>Dark overlays that mute the work being presented.</p></div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script type="module" src="/styleguide/styleguide.js"></script>
+  </body>
+</html>

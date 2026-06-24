@@ -9,6 +9,7 @@ quality targets a stable frame rate.
 - `/` - redirects to the portfolio case study
 - `/webpage/` - portfolio case study
 - `/scroll-demo/` - clean scroll-effect test page
+- `/styleguide/` - interactive portfolio design system
 - `/index.html` - wave tuner
 
 ## Regenerate The Scroll Demo
