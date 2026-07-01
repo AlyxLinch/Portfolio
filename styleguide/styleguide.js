@@ -1,3 +1,5 @@
+import { initBrandLogos } from "/shared/brand-logo.js";
+
 const root = document.documentElement;
 const controlList = document.getElementById("token-controls");
 const copyButton = document.getElementById("copy-tokens");
@@ -193,6 +195,7 @@ function initializeDropdowns() {
   });
 }
 
+initBrandLogos();
 buildControls();
 copyButton.addEventListener("click", copyTokens);
 resetButton.addEventListener("click", resetTokens);

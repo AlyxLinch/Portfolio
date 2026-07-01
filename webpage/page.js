@@ -4,11 +4,14 @@ import {
   initDecision,
   settings as defaultSettings
 } from "/shared/wave-config.js";
+import { initBrandLogos } from "/shared/brand-logo.js";
 import { createWaveRenderer } from "/shared/wave-renderer.js";
 
 const liveContainer = document.getElementById("live-bg");
 const status = document.getElementById("bg-status");
 const settings = cloneSettings(defaultSettings);
+
+initBrandLogos();
 
 if ("scrollRestoration" in history) {
   history.scrollRestoration = "manual";
