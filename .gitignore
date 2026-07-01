@@ -7,3 +7,9 @@ webpage/assets/scroll-demo-frames/
 node_modules/
 .env
 .env.*
+
+# wrangler files
+.wrangler
+.dev.vars*
+!.dev.vars.example
+!.env.example
