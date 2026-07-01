@@ -212,6 +212,100 @@ a {
   --gradient-highlight-color: var(--color-white);
 }
 
+.brand-logo {
+  position: relative;
+  display: inline-block;
+  width: 208px;
+  height: 37px;
+  font-family: var(--font-display);
+  font-size: 45px;
+  font-weight: 800;
+  letter-spacing: 5.4px;
+  line-height: 33px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.brand-logo__layer {
+  position: absolute;
+  top: 0;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-logo__base {
+  left: 0;
+  background-image:
+    radial-gradient(
+      ellipse 214px 57px at 100% 0%,
+      rgb(37 68 65) 18.5%,
+      rgb(75 40 72) 38%,
+      rgb(95 27 75) 47.75%,
+      rgb(114 13 78) 57.5%,
+      rgb(132 34 75) 62.512%,
+      rgb(149 54 72) 67.525%,
+      rgb(184 95 66) 77.55%,
+      rgb(220 137 60) 87.575%,
+      rgb(255 178 54) 97.6%
+    );
+}
+
+.brand-logo__accent {
+  left: 6px;
+  background-image:
+    radial-gradient(
+      ellipse 214px 57px at 100% 0%,
+      rgb(0 192 173) 18.5%,
+      rgb(14 180 171) 20.938%,
+      rgb(29 168 170) 23.375%,
+      rgb(58 144 167) 28.25%,
+      rgb(87 120 164) 33.125%,
+      rgb(116 96 161) 38%,
+      rgb(145 72 158) 42.875%,
+      rgb(174 48 155) 47.75%,
+      rgb(202 24 152) 52.625%,
+      rgb(217 12 151) 55.062%,
+      rgb(231 0 149) 57.5%,
+      rgb(234 19 132) 60.825%,
+      rgb(237 38 114) 64.15%,
+      rgb(243 76 78) 70.8%,
+      rgb(249 114 43) 77.45%,
+      rgb(252 133 25) 80.775%,
+      rgb(255 152 7) 84.1%
+    );
+}
+
+.brand-logo__l {
+  letter-spacing: 1.28px;
+}
+
+.brand-logo--small {
+  width: 92px;
+  height: 18px;
+  font-size: 20px;
+  letter-spacing: 2.4px;
+  line-height: 15px;
+}
+
+.brand-logo--small .brand-logo__accent {
+  left: 3px;
+}
+
+.brand-logo--small .brand-logo__l {
+  letter-spacing: 0.57px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .ds-label {
   font-size: var(--type-label);
   font-weight: 500;

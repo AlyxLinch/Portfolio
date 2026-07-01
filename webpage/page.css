@@ -49,20 +49,7 @@ a {
   justify-content: space-between;
   width: 100%;
   padding: 20px clamp(20px, 4vw, 60px);
-  mix-blend-mode: difference;
-}
-
-.wordmark {
-  display: grid;
-  place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 2px solid currentColor;
-  color: white;
-  font-family: "Syne", sans-serif;
-  font-size: 12px;
-  font-weight: 800;
-  text-decoration: none;
+  color: var(--white);
 }
 
 .site-header nav {

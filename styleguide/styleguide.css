@@ -13,18 +13,6 @@ body {
   border-bottom: var(--border-strong) solid var(--color-brown);
 }
 
-.guide-wordmark {
-  display: grid;
-  place-items: center;
-  width: 46px;
-  height: 46px;
-  border: var(--border-strong) solid var(--color-forest);
-  color: var(--color-forest);
-  font-family: var(--font-display);
-  font-weight: 800;
-  text-decoration: none;
-}
-
 .guide-header h1 {
   --gradient-text-color: var(--color-forest);
 }
@@ -367,7 +355,7 @@ textarea.ds-input {
 }
 
 .project-list {
-  border-top: var(--border-strong) solid var(--color-brown);
+  border-top: var(--border-thin) solid var(--color-brown);
 }
 
 .project-list article {
