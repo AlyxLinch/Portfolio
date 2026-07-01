@@ -238,10 +238,11 @@ h1 {
 .decision-list h3,
 .technical-grid h3 {
   --gradient-text-color: var(--plum);
+  --gradient-highlight-color: var(--gradient-highlight-plum);
   background:
     radial-gradient(
-      ellipse 58% 82% at var(--gradient-center-x) var(--gradient-center-y),
-      color-mix(in srgb, var(--gradient-text-color) var(--gradient-base-mix), white),
+      circle var(--gradient-radius) at var(--gradient-center-x) var(--gradient-center-y),
+      var(--gradient-highlight-color),
       var(--gradient-text-color) var(--gradient-falloff)
     );
   color: transparent;

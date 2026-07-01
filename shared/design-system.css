@@ -74,8 +74,11 @@
   --tracking-label: 0.15em;
   --gradient-center-x: 56%;
   --gradient-center-y: 48%;
-  --gradient-base-mix: 58%;
+  --gradient-radius: 0.95em;
   --gradient-falloff: 72%;
+  --gradient-highlight-forest: #14645c;
+  --gradient-highlight-plum: #9b0e69;
+  --gradient-highlight-yellow: #ff9731;
 
   --space-1: 4px;
   --space-2: 8px;
@@ -176,10 +179,11 @@ a {
 
 .ds-gradient-text {
   --gradient-text-color: var(--color-plum);
+  --gradient-highlight-color: var(--gradient-highlight-plum);
   background:
     radial-gradient(
-      ellipse 58% 82% at var(--gradient-center-x) var(--gradient-center-y),
-      color-mix(in srgb, var(--gradient-text-color) var(--gradient-base-mix), white),
+      circle var(--gradient-radius) at var(--gradient-center-x) var(--gradient-center-y),
+      var(--gradient-highlight-color),
       var(--gradient-text-color) var(--gradient-falloff)
     );
   color: transparent;
@@ -190,18 +194,22 @@ a {
 
 .ds-gradient-text--forest {
   --gradient-text-color: var(--color-forest);
+  --gradient-highlight-color: var(--gradient-highlight-forest);
 }
 
 .ds-gradient-text--plum {
   --gradient-text-color: var(--color-plum);
+  --gradient-highlight-color: var(--gradient-highlight-plum);
 }
 
 .ds-gradient-text--yellow {
   --gradient-text-color: var(--color-yellow);
+  --gradient-highlight-color: var(--gradient-highlight-yellow);
 }
 
 .ds-gradient-text--white {
   --gradient-text-color: var(--color-white);
+  --gradient-highlight-color: var(--color-white);
 }
 
 .ds-label {

@@ -184,10 +184,11 @@ body {
 
 .section-title h2 {
   --gradient-text-color: var(--color-plum);
+  --gradient-highlight-color: var(--gradient-highlight-plum);
   background:
     radial-gradient(
-      ellipse 58% 82% at var(--gradient-center-x) var(--gradient-center-y),
-      color-mix(in srgb, var(--gradient-text-color) var(--gradient-base-mix), white),
+      circle var(--gradient-radius) at var(--gradient-center-x) var(--gradient-center-y),
+      var(--gradient-highlight-color),
       var(--gradient-text-color) var(--gradient-falloff)
     );
   color: transparent;
@@ -198,6 +199,7 @@ body {
 
 .guide-section--dark .section-title h2 {
   --gradient-text-color: var(--color-yellow);
+  --gradient-highlight-color: var(--gradient-highlight-yellow);
 }
 
 .specimen {

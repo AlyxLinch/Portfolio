@@ -31,9 +31,9 @@
           <p class="eyebrow">Creative development · UI/UX case study</p>
           <h1>Making a background feel alive.</h1>
           <p class="hero__lede">
-            I turned a mathematical interference-wave experiment into a responsive,
-            scroll-directed 3D environment for my portfolio, then built the tools
-            needed to tune it without losing the feeling that made it interesting.
+            I transformed a mathematical interference-wave demo into a responsive,
+            scroll-directed 3D environment for my portfolio, then built the tuning
+            system I needed to shape it like a real design asset.
           </p>
         </div>
         <div class="hero__meta" aria-label="Project summary">
@@ -53,15 +53,15 @@
         </div>
         <div class="overview__body">
           <p class="lead">
-            The first idea was simple: use a looping video as a lightweight website
-            background. The project became more ambitious when I realized the camera
-            itself could respond to the page.
+            The first plan was practical: render a beautiful looping video and use it
+            as a lightweight background. The more interesting answer was to make the
+            scene respond to the page itself.
           </p>
           <p>
-            The final experience keeps the waveform moving continuously while scroll
-            advances a camera through a spiral path in 3D space. A separate tuner
-            exposes the wave, camera, palette, path, and post-processing parameters.
-            The live page watches its own performance and adjusts detail when needed.
+            The final experience keeps the waveform alive while scroll moves the
+            camera through a spiral path in 3D space. A separate tuner exposes the
+            wave, camera, palette, path, texture, and post-processing parameters, so
+            visual decisions can be tested in context instead of guessed in code.
           </p>
         </div>
         <dl class="outcomes">
@@ -77,7 +77,7 @@
         <div class="glass-pane live-interlude__copy">
           <p class="eyebrow">The artifact is live</p>
           <h2>Scroll is moving the camera through the work as you read about it.</h2>
-          <p>The fixed look-at point keeps the composition coherent while the camera path reveals new parts of the surface.</p>
+          <p>The camera moves, but the look-at point stays anchored. That gives the page motion and depth without letting the background steal the whole conversation.</p>
         </div>
       </section>
 
@@ -85,11 +85,12 @@
         <div class="glass-pane process-panel">
         <div class="section-heading section-heading--wide">
           <p class="eyebrow">The evolution</p>
-          <h2>The useful version appeared through experiments, not a straight line.</h2>
+          <h2>The useful version came from experiments, not a straight line.</h2>
           <p>
             These frames reconstruct the major visual stages from the project’s
-            settings and development history. They are labeled as recreations because
-            the early prototypes were not originally archived as images.
+            settings and development history. Some are recreations, because early
+            prototypes were treated like sketches: useful, messy, and not always
+            archived before the next idea arrived.
           </p>
         </div>
 
@@ -100,10 +101,10 @@
               <p class="kicker">Starting point</p>
               <h3>Two mathematical sources</h3>
               <p>
-                A Wolfram Demonstration supplied the core equation: two cosine waves,
-                each radiating from a point, summed into an interference surface. I
-                translated that equation into a Three.js plane and removed random
-                noise so the structure of the wave stayed legible.
+                A Wolfram Demonstration gave me the seed: two cosine waves radiating
+                from separate points and combining into one interference surface. I
+                translated the equation into a Three.js mesh and stripped out random
+                noise so the underlying motion stayed crisp and readable.
               </p>
               <ul class="tag-list" aria-label="Key concepts">
                 <li>Radial interference</li>
@@ -123,10 +124,10 @@
               <p class="kicker">Finding a voice</p>
               <h3>From symmetry to a folded landscape</h3>
               <p>
-                Perfect rings felt like a simulation. I wanted something with more
-                compositional tension, so the coordinates were folded, sheared, and
-                blended with a directional wave. The resulting asymmetric surface felt
-                less scientific and more like an identity system.
+                Perfect rings were satisfying, but they still read as a simulation. I
+                wanted something with more tension, so I folded and sheared the
+                coordinates, then blended in directional movement. The surface started
+                to feel less like a physics demo and more like a living brand element.
               </p>
               <ul class="tag-list">
                 <li>Asymmetric fold</li>
@@ -146,11 +147,11 @@
               <p class="kicker">Texture studies</p>
               <h3>Grain exposed a color problem</h3>
               <p>
-                Several grain systems were tested: static screen noise, multiplied
-                luminance, surface-mapped textures, and palette-aware color grain.
-                Black multiplication made the scene muddy; oversized mapped speckles
-                made it look tiled. The strongest experiment moved each fragment a
-                small distance along the existing color ramp instead of darkening it.
+                I tested static screen noise, multiplied luminance, surface-mapped
+                grain, and palette-aware color texture. The lesson was quick and
+                humbling: black grain made the scene muddy, and oversized speckles
+                looked tiled. The strongest direction nudged fragments along the
+                existing color ramp instead of simply darkening the image.
               </p>
               <ul class="tag-list">
                 <li>Surface mapping</li>
@@ -170,11 +171,11 @@
               <p class="kicker">Final direction</p>
               <h3>The camera became the interaction</h3>
               <p>
-                The project stopped being a background export and became a live
-                environment. Scroll maps to a spiral camera function while the look-at
-                point remains fixed. Raw scroll input is eased before it reaches the
-                camera, preserving responsiveness without inheriting every abrupt
-                trackpad movement.
+                The breakthrough was letting go of the export. Instead of baking the
+                motion into video, scroll maps to a spiral camera function while the
+                look-at point stays fixed. Raw scroll input is eased before it reaches
+                the camera, so the movement feels intentional even when the user’s
+                trackpad does not.
               </p>
               <ul class="tag-list">
                 <li>Scroll smoothing</li>
@@ -198,10 +199,10 @@
           <p class="eyebrow">The tuning interface</p>
           <h2>I needed a visual instrument, not a file full of mystery numbers.</h2>
           <p>
-            The tuner exposes the camera, scroll path, mesh, wave, palette, grain, and
-            post-processing settings. Its guide frames reveal how the same composition
-            crops across desktop, tablet, and mobile before a value is committed to the
-            shared configuration.
+            The tuner became the project’s control room. It exposes the camera, scroll
+            path, mesh density, wave behavior, palette, grain, and post-processing
+            settings. Guide frames show how the composition lands across desktop,
+            tablet, and mobile before a value is saved back to the shared config.
           </p>
           <a class="brand-button brand-button--cyan" href="/">Open the live tuner</a>
         </div>
@@ -230,9 +231,9 @@
               <h3>A 90-second video fallback</h3>
               <p>
                 I built frame-stepped capture tools, ffmpeg streaming, WebCodecs
-                experiments, logging, headless Chromium rendering, and completion
-                states. At the desired resolution, the file remained too large and
-                removed the most interesting interaction: moving through the scene.
+                experiments, diagnostic logs, headless Chromium rendering, and capture
+                completion states. The pipeline worked, but the file size fought the
+                concept. Worse, video removed the best part: moving through the scene.
               </p>
               <strong class="decision-result">Decision: remove the fallback entirely.</strong>
             </div>
@@ -242,10 +243,9 @@
             <div>
               <h3>Device capability before interaction</h3>
               <p>
-                An earlier plan locked scrolling while a hidden renderer benchmarked
-                the device, then swapped between video and WebGL. It solved camera
-                snapping but introduced loading complexity and an awkward first-use
-                state.
+                One prototype locked scroll while a hidden renderer benchmarked the
+                device, then chose between video and WebGL. It solved the camera-snap
+                problem on paper, but it made the first few seconds feel overmanaged.
               </p>
               <strong class="decision-result">Decision: start live and adapt continuously.</strong>
             </div>
@@ -255,10 +255,10 @@
             <div>
               <h3>Grain as the defining visual effect</h3>
               <p>
-                Grain looked compelling in references, but repeated attempts revealed
-                aliasing, banding, muddy luminance, and scale problems on a moving 3D
-                surface. It remains available in the tuner, but the design no longer
-                depends on it.
+                Grain looked beautiful in references, especially the soft retro
+                airbrushed examples. On the live surface, it also introduced aliasing,
+                banding, muddy luminance, and scale issues. I kept texture as a tuning
+                option, but stopped asking it to carry the whole identity.
               </p>
               <strong class="decision-result">Decision: treat texture as optional, not structural.</strong>
             </div>
@@ -274,15 +274,15 @@
           <h2>I used AI as an implementation partner, not an idea generator.</h2>
         </div>
         <div class="collaboration-flow" aria-label="Codex collaboration loop">
-          <div><span>1</span><strong>Observe</strong><p>I described what felt wrong in visual language: muddy, too fast, snapping, tiled.</p></div>
-          <div><span>2</span><strong>Instrument</strong><p>Codex exposed controls, logs, performance counters, and render diagnostics.</p></div>
-          <div><span>3</span><strong>Compare</strong><p>I tested changes live and brought back specific visual feedback and references.</p></div>
-          <div><span>4</span><strong>Converge</strong><p>We promoted useful experiments into shared settings and removed brittle branches.</p></div>
+          <div><span>1</span><strong>Observe</strong><p>I described what felt off in visual language: muddy, too fast, snapping, tiled.</p></div>
+          <div><span>2</span><strong>Instrument</strong><p>Codex turned those observations into controls, logs, counters, and diagnostics.</p></div>
+          <div><span>3</span><strong>Compare</strong><p>I tested changes live, then came back with specific feedback and visual references.</p></div>
+          <div><span>4</span><strong>Converge</strong><p>Useful experiments became shared settings. Brittle branches got retired.</p></div>
         </div>
         <blockquote>
-          “The most productive prompts were not requests for polish. They were precise
-          descriptions of perception: the camera feels too high, the grain is mapped
-          too large, the frame darkens when the effect turns on.”
+          “The most useful prompts were not vague requests for polish. They were
+          specific descriptions of perception: the camera feels too high, the grain is
+          mapped too large, the frame darkens when the effect turns on.”
         </blockquote>
         </div>
       </section>
@@ -302,12 +302,12 @@
           <div class="architecture__connector" aria-hidden="true">→</div>
           <div class="architecture__node">
             <span>02</span><strong>Wave renderer</strong>
-            <p>CPU vertex displacement with a GLSL color and effects pipeline.</p>
+            <p>Vertex displacement with a GLSL color and effects pipeline.</p>
           </div>
           <div class="architecture__connector" aria-hidden="true">→</div>
           <div class="architecture__node">
             <span>03</span><strong>Experience layer</strong>
-            <p>Tuner previews the path; portfolio scroll drives the same function.</p>
+            <p>The tuner previews the path; portfolio scroll drives that same function.</p>
           </div>
         </div>
 
@@ -316,9 +316,9 @@
             <p class="kicker">Wave model</p>
             <h3>Displacement before decoration</h3>
             <p>
-              Each mesh vertex samples the selected wave function. Heights are
-              normalized every frame, allowing the complete palette to remain visible
-              even when amplitude or damping changes.
+              Each mesh vertex samples the selected wave function. Height values are
+              normalized every frame, so the full palette remains visible even when
+              amplitude, damping, or camera angle changes.
             </p>
           </article>
           <article>
@@ -326,8 +326,8 @@
             <h3>One path, two interfaces</h3>
             <p>
               The tuner’s path scrubber and the live page call the same spiral-camera
-              function. That removed the framing mismatch that appeared when each page
-              implemented camera movement independently.
+              function. That removed the framing mismatch that appeared when each
+              interface calculated camera movement on its own.
             </p>
           </article>
           <article>
@@ -335,8 +335,8 @@
             <h3>Quality can move both directions</h3>
             <p>
               The renderer targets 30 fps. It reduces mesh density before device pixel
-              ratio, never drops below 300 segments, and raises quality again when the
-              device demonstrates sustained headroom.
+              ratio, never drops below 300 segments, and raises quality again after
+              the device shows sustained headroom.
             </p>
           </article>
           <article>
@@ -345,7 +345,7 @@
             <p>
               Chromatic aberration, diffusion, and halation use a multisampled
               full-resolution render target. Matching Three.js color-space conversion
-              prevented the post-process pass from dimming the entire image.
+              kept the post-process pass from quietly dimming the entire image.
             </p>
           </article>
         </div>
@@ -357,9 +357,10 @@
           <p class="eyebrow">Outcome</p>
           <h2>The final background is also the documentation.</h2>
           <p>
-            As you scroll this page, the live camera follows the same path described
-            above. The performance readout in the corner is intentionally visible in
-            this prototype so every design claim remains inspectable.
+            As you scroll this page, the background follows the same camera path
+            described above. The performance readout is intentionally visible in this
+            prototype, so the design claim stays inspectable instead of becoming a
+            hand-wavy flourish.
           </p>
         </div>
         <a class="brand-button brand-button--orange" href="/">Explore the tuner <span aria-hidden="true">↗</span></a>
