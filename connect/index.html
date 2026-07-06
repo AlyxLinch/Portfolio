@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Connect with Alyx Linch for product design roles, creative development, freelance work, and collaboration.">
+    <title>Connect — Alyx Linch</title>
+    <link rel="stylesheet" href="/webpage/page.css">
+  </head>
+  <body data-page="connect">
+    <div id="background-stage" aria-hidden="true"><div id="live-bg"></div></div>
+    <header class="portfolio-nav site-header">
+      <a class="brand-logo" href="/webpage/" aria-label="Alyx Linch home">
+        <span class="brand-logo__layer brand-logo__accent" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
+        <span class="brand-logo__layer brand-logo__base" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
+        <span class="visually-hidden">Alyx Linch</span>
+      </a>
+      <nav class="portfolio-nav__links" aria-label="Portfolio navigation">
+        <a href="/webpage/">Profile</a>
+        <a href="/work/">My Work</a>
+        <a href="/resume/">Résumé</a>
+        <a href="/connect/" aria-current="page">Connect</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="subpage-hero subpage-hero--split">
+        <div>
+          <p class="eyebrow">Connect</p>
+          <h1>Tell me what you are trying to make better.</h1>
+          <p class="hero__lede">
+            I am open to product design roles, creative development work, freelance
+            websites, internal tools, and teams that value initiative over perfect
+            pedigree.
+          </p>
+        </div>
+        <form
+          class="contact-form ds-paper"
+          action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
+          method="POST"
+        >
+          <label>
+            <span class="ds-label">Name</span>
+            <input class="ds-input" name="name" autocomplete="name" required>
+          </label>
+          <label>
+            <span class="ds-label">Email</span>
+            <input class="ds-input" name="email" type="email" autocomplete="email" required>
+          </label>
+          <label>
+            <span class="ds-label">How should I reach out?</span>
+            <select class="ds-input" name="preferred_contact">
+              <option>Email first</option>
+              <option>Phone call</option>
+              <option>Text message</option>
+              <option>LinkedIn</option>
+            </select>
+          </label>
+          <label>
+            <span class="ds-label">What are you reaching out about?</span>
+            <select class="ds-input" name="intent">
+              <option>Hiring for a product design role</option>
+              <option>Freelance website or design work</option>
+              <option>Creative development project</option>
+              <option>Internal tool or workflow problem</option>
+              <option>Something else</option>
+            </select>
+          </label>
+          <label class="contact-form__wide">
+            <span class="ds-label">Project, role, or problem</span>
+            <textarea class="ds-input" name="message" rows="7" required placeholder="A few sentences is perfect. What do you need, what is broken, and what would success look like?"></textarea>
+          </label>
+          <button class="ds-button ds-button--yellow" type="submit">Send message</button>
+          <p class="form-note">Replace the Formspree form ID before launch. I will share direct phone or email details after I reply.</p>
+        </form>
+      </section>
+    </main>
+
+    <aside id="bg-status" aria-live="polite"></aside>
+    <script type="module" src="/webpage/page.js"></script>
+  </body>
+</html>

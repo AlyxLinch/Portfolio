@@ -72,10 +72,10 @@
   --line-body: 1.6;
   --tracking-display: -0.03em;
   --tracking-label: 0.15em;
-  --gradient-center-x: 56%;
+  --gradient-center-x: 52%;
   --gradient-center-y: 48%;
-  --gradient-radius: 0.95em;
-  --gradient-falloff: 72%;
+  --gradient-radius: 1.8em;
+  --gradient-falloff: 95%;
   --gradient-highlight-forest: #14645c;
   --gradient-highlight-plum: #9b0e69;
   --gradient-highlight-yellow: #ff9731;

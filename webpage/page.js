@@ -124,6 +124,53 @@ function renderVersionFrames() {
   });
 }
 
+function initializeProjectOutline() {
+  const outlineLinks = [...document.querySelectorAll(".project-outline a")];
+  const sections = [...document.querySelectorAll("[data-project-section]")];
+
+  if (!outlineLinks.length || !sections.length) {
+    return;
+  }
+
+  const setActive = (id) => {
+    outlineLinks.forEach((link) => {
+      link.classList.toggle("is-active", link.getAttribute("href") === `#${id}`);
+    });
+  };
+
+  outlineLinks.forEach((link) => {
+    link.addEventListener("click", (event) => {
+      const target = document.querySelector(link.getAttribute("href"));
+
+      if (!target) {
+        return;
+      }
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: "smooth", block: "center" });
+      setActive(target.id);
+    });
+  });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const activeEntry = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+      if (activeEntry) {
+        setActive(activeEntry.target.id);
+      }
+    },
+    {
+      rootMargin: "-30% 0px -45% 0px",
+      threshold: [0.18, 0.32, 0.48, 0.64]
+    }
+  );
+
+  sections.forEach((section) => observer.observe(section));
+}
+
 function setStatus(message) {
   if (status) {
     status.textContent = message;
@@ -292,4 +339,5 @@ if (!window.location.hash) {
 }
 resizeLiveRenderer();
 renderVersionFrames();
+initializeProjectOutline();
 animationFrame = requestAnimationFrame(animate);

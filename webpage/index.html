@@ -5,369 +5,165 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="A UI/UX and creative-development case study for a live Three.js waveform background."
+      content="Alyx Linch is a self-taught product designer and creative developer building expressive digital products, websites, systems, and brand experiences."
     >
-    <title>Making a Living Background — Case Study</title>
+    <title>Alyx Linch — Product Designer</title>
     <link rel="stylesheet" href="/webpage/page.css">
   </head>
-  <body>
+  <body data-page="profile">
     <div id="background-stage" aria-hidden="true">
       <div id="live-bg"></div>
     </div>
 
     <header class="portfolio-nav site-header">
-      <a class="brand-logo" href="#top" aria-label="Alyx Linch case study top">
+      <a class="brand-logo" href="/webpage/" aria-label="Alyx Linch home">
         <span class="brand-logo__layer brand-logo__accent" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
         <span class="brand-logo__layer brand-logo__base" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
         <span class="visually-hidden">Alyx Linch</span>
       </a>
       <nav class="portfolio-nav__links" aria-label="Portfolio navigation">
-        <a href="#top" aria-current="page">Profile</a>
-        <a href="#process">My Work</a>
-        <a href="#technical">Résumé</a>
-        <a href="#tooling">Connect</a>
+        <a href="/webpage/" aria-current="page">Profile</a>
+        <a href="/work/">My Work</a>
+        <a href="/resume/">Résumé</a>
+        <a href="/connect/">Connect</a>
       </nav>
     </header>
 
     <main id="top" class="page-shell">
-      <section class="hero">
-        <div class="hero__copy">
-          <p class="eyebrow">Creative development · UI/UX case study</p>
-          <h1>Making a background feel alive.</h1>
+      <section class="profile-hero">
+        <div class="profile-hero__copy">
+          <p class="eyebrow">Product design · creative development · self-taught momentum</p>
+          <h1>Designing useful things with a little voltage.</h1>
           <p class="hero__lede">
-            I transformed a mathematical interference-wave demo into a responsive,
-            scroll-directed 3D environment for my portfolio, then built the tuning
-            system I needed to shape it like a real design asset.
+            I am a product designer and creative developer who learned by building:
+            internal tools, responsive websites, brand systems, service workflows, and
+            the live WebGL background moving behind this page.
           </p>
         </div>
-        <div class="hero__meta" aria-label="Project summary">
-          <div><span>Role</span><strong>Designer + developer</strong></div>
-          <div><span>Built with</span><strong>Three.js, WebGL, GLSL</strong></div>
-          <div><span>Collaboration</span><strong>Iterated with Codex</strong></div>
-          <div><span>Output</span><strong>Adaptive live background</strong></div>
-        </div>
-        <a class="scroll-cue" href="#overview">Read the case study <span aria-hidden="true">↓</span></a>
-      </section>
-
-      <section id="overview" class="content-section overview">
-        <div class="paper-panel">
-        <div class="section-heading">
-          <p class="eyebrow">The brief</p>
-          <h2>A visual system, not a decorative loop.</h2>
-        </div>
-        <div class="overview__body">
-          <p class="lead">
-            The first plan was practical: render a beautiful looping video and use it
-            as a lightweight background. The more interesting answer was to make the
-            scene respond to the page itself.
-          </p>
+        <div class="glass-pane hero-card">
+          <p class="eyebrow">What I bring</p>
           <p>
-            The final experience keeps the waveform alive while scroll moves the
-            camera through a spiral path in 3D space. A separate tuner exposes the
-            wave, camera, palette, path, texture, and post-processing parameters, so
-            visual decisions can be tested in context instead of guessed in code.
+            I do not have a traditional design degree. I do have a long habit of
+            noticing broken systems, teaching myself the tools to fix them, and
+            turning rough ideas into working products people can actually use.
           </p>
-        </div>
-        <dl class="outcomes">
-          <div><dt>400</dt><dd>Starting mesh segments</dd></div>
-          <div><dt>30 fps</dt><dd>Adaptive performance target</dd></div>
-          <div><dt>1 source</dt><dd>Shared configuration of truth</dd></div>
-          <div><dt>0 video</dt><dd>Fallback files in the final concept</dd></div>
-        </dl>
+          <a class="brand-button brand-button--cyan" href="/work/">Explore the work</a>
         </div>
       </section>
 
-      <section class="live-interlude">
-        <div class="glass-pane live-interlude__copy">
-          <p class="eyebrow">The artifact is live</p>
-          <h2>Scroll is moving the camera through the work as you read about it.</h2>
-          <p>The camera moves, but the look-at point stays anchored. That gives the page motion and depth without letting the background steal the whole conversation.</p>
-        </div>
-      </section>
+      <section class="profile-grid">
+        <aside class="project-outline" aria-label="Project outline">
+          <p class="eyebrow">Selected work</p>
+          <a href="#asse-aspire" class="is-active">ASSE Aspire</a>
+          <a href="#vacasa-database">Vacasa Database App</a>
+          <a href="#portfolio-background">Live Portfolio Background</a>
+          <a href="#vibechat">VibeChat for Spotify</a>
+          <a href="#vacasa-graphics">Vacasa Graphic Design</a>
+          <a href="#celtic-websites">Celtic Websites</a>
+        </aside>
 
-      <section id="process" class="content-section process">
-        <div class="glass-pane process-panel">
-        <div class="section-heading section-heading--wide">
-          <p class="eyebrow">The evolution</p>
-          <h2>The useful version came from experiments, not a straight line.</h2>
-          <p>
-            These frames reconstruct the major visual stages from the project’s
-            settings and development history. Some are recreations, because early
-            prototypes were treated like sketches: useful, messy, and not always
-            archived before the next idea arrived.
-          </p>
-        </div>
-
-        <div class="timeline">
-          <article class="timeline-entry">
-            <div class="timeline-entry__index">01</div>
-            <div class="timeline-entry__copy">
-              <p class="kicker">Starting point</p>
-              <h3>Two mathematical sources</h3>
+        <div class="project-preview-stack">
+          <article id="asse-aspire" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy">
+              <p class="eyebrow">Website · case study</p>
+              <h2>ASSE Aspire Website</h2>
               <p>
-                A Wolfram Demonstration gave me the seed: two cosine waves radiating
-                from separate points and combining into one interference surface. I
-                translated the equation into a Three.js mesh and stripped out random
-                noise so the underlying motion stayed crisp and readable.
+                A mobile-first website for international Summer Work Travel and
+                Intern/Trainee participants, designed and built from concept to launch.
               </p>
-              <ul class="tag-list" aria-label="Key concepts">
-                <li>Radial interference</li>
-                <li>Two sources</li>
-                <li>Vertex displacement</li>
-              </ul>
+              <a class="ds-button ds-button--plum" href="/work/#asse-aspire">See the project</a>
             </div>
-            <figure class="version-frame">
-              <canvas data-wave-version="radial" aria-label="Recreated radial interference prototype"></canvas>
-              <figcaption><span>Recreated frame</span> Early radial interference</figcaption>
-            </figure>
-          </article>
-
-          <article class="timeline-entry">
-            <div class="timeline-entry__index">02</div>
-            <div class="timeline-entry__copy">
-              <p class="kicker">Finding a voice</p>
-              <h3>From symmetry to a folded landscape</h3>
-              <p>
-                Perfect rings were satisfying, but they still read as a simulation. I
-                wanted something with more tension, so I folded and sheared the
-                coordinates, then blended in directional movement. The surface started
-                to feel less like a physics demo and more like a living brand element.
-              </p>
-              <ul class="tag-list">
-                <li>Asymmetric fold</li>
-                <li>Camera framing</li>
-                <li>Height-mapped color</li>
-              </ul>
-            </div>
-            <figure class="version-frame version-frame--offset">
-              <canvas data-wave-version="fold" aria-label="Recreated asymmetric fold prototype"></canvas>
-              <figcaption><span>Recreated frame</span> Asymmetric fold and tuned palette</figcaption>
-            </figure>
-          </article>
-
-          <article class="timeline-entry">
-            <div class="timeline-entry__index">03</div>
-            <div class="timeline-entry__copy">
-              <p class="kicker">Texture studies</p>
-              <h3>Grain exposed a color problem</h3>
-              <p>
-                I tested static screen noise, multiplied luminance, surface-mapped
-                grain, and palette-aware color texture. The lesson was quick and
-                humbling: black grain made the scene muddy, and oversized speckles
-                looked tiled. The strongest direction nudged fragments along the
-                existing color ramp instead of simply darkening the image.
-              </p>
-              <ul class="tag-list">
-                <li>Surface mapping</li>
-                <li>Palette perturbation</li>
-                <li>Luminance preservation</li>
-              </ul>
-            </div>
-            <figure class="version-frame">
-              <canvas data-wave-version="grain" aria-label="Recreated palette grain prototype"></canvas>
-              <figcaption><span>Recreated frame</span> Palette-aware surface texture</figcaption>
-            </figure>
-          </article>
-
-          <article class="timeline-entry">
-            <div class="timeline-entry__index">04</div>
-            <div class="timeline-entry__copy">
-              <p class="kicker">Final direction</p>
-              <h3>The camera became the interaction</h3>
-              <p>
-                The breakthrough was letting go of the export. Instead of baking the
-                motion into video, scroll maps to a spiral camera function while the
-                look-at point stays fixed. Raw scroll input is eased before it reaches
-                the camera, so the movement feels intentional even when the user’s
-                trackpad does not.
-              </p>
-              <ul class="tag-list">
-                <li>Scroll smoothing</li>
-                <li>Spiral camera path</li>
-                <li>Adaptive quality</li>
-              </ul>
-            </div>
-            <figure class="version-frame version-frame--live">
-              <video autoplay muted loop playsinline preload="metadata">
-                <source src="/webpage/assets/scroll-demo-boomerang.mp4" type="video/mp4">
-              </video>
-              <figcaption><span>Current build</span> Scroll-directed live WebGL scene</figcaption>
-            </figure>
-          </article>
-        </div>
-        </div>
-      </section>
-
-      <section id="tooling" class="tuner-story">
-        <div class="glass-pane tuner-story__intro">
-          <p class="eyebrow">The tuning interface</p>
-          <h2>I needed a visual instrument, not a file full of mystery numbers.</h2>
-          <p>
-            The tuner became the project’s control room. It exposes the camera, scroll
-            path, mesh density, wave behavior, palette, grain, and post-processing
-            settings. Guide frames show how the composition lands across desktop,
-            tablet, and mobile before a value is saved back to the shared config.
-          </p>
-          <a class="brand-button brand-button--cyan" href="/">Open the live tuner</a>
-        </div>
-        <div class="tuner-gallery">
-          <figure class="tuner-shot tuner-shot--desktop">
-            <img src="/webpage/assets/tuner-desktop.png" alt="Wave tuner interface over the live waveform with desktop, tablet, and mobile frame guides">
-            <figcaption><span>Desktop capture</span> Camera, path, and mesh controls inside all framing guides.</figcaption>
-          </figure>
-          <figure class="tuner-shot tuner-shot--portrait">
-            <img src="/webpage/assets/tuner-portrait.png" alt="Portrait view of the wave tuner interface and responsive guide frames">
-            <figcaption><span>Portrait capture</span> The same tool under a narrower viewport.</figcaption>
-          </figure>
-        </div>
-      </section>
-
-      <section class="content-section decisions">
-        <div class="paper-panel">
-        <div class="section-heading">
-          <p class="eyebrow">What did not ship</p>
-          <h2>Dead ends made the final product smaller and clearer.</h2>
-        </div>
-        <div class="decision-list">
-          <article>
-            <span class="decision-number">A</span>
-            <div>
-              <h3>A 90-second video fallback</h3>
-              <p>
-                I built frame-stepped capture tools, ffmpeg streaming, WebCodecs
-                experiments, diagnostic logs, headless Chromium rendering, and capture
-                completion states. The pipeline worked, but the file size fought the
-                concept. Worse, video removed the best part: moving through the scene.
-              </p>
-              <strong class="decision-result">Decision: remove the fallback entirely.</strong>
+            <div class="mockup-cluster mockup-cluster--web" aria-label="Placeholder desktop and mobile website mockups">
+              <div class="mockup mockup--desktop"><span>Homepage desktop screenshot</span></div>
+              <div class="mockup mockup--phone"><span>Mobile screenshot</span></div>
             </div>
           </article>
-          <article>
-            <span class="decision-number">B</span>
-            <div>
-              <h3>Device capability before interaction</h3>
+
+          <article id="vacasa-database" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy">
+              <p class="eyebrow">Software solution · case study</p>
+              <h2>Vacasa Database App</h2>
               <p>
-                One prototype locked scroll while a hidden renderer benchmarked the
-                device, then chose between video and WebGL. It solved the camera-snap
-                problem on paper, but it made the first few seconds feel overmanaged.
+                A secure Google Apps Script database and label automation system built
+                to support 2,000+ homes across multiple offices.
               </p>
-              <strong class="decision-result">Decision: start live and adapt continuously.</strong>
+              <a class="ds-button ds-button--forest" href="/projects/vacasa-database/">See the case study</a>
+            </div>
+            <div class="mockup mockup--app"><span>App interface placeholder</span></div>
+          </article>
+
+          <article id="portfolio-background" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy">
+              <p class="eyebrow">Creative development · case study</p>
+              <h2>Live Portfolio Background</h2>
+              <p>
+                A mathematical waveform experiment evolved into a scroll-directed 3D
+                environment, tuner, and adaptive live renderer.
+              </p>
+              <a class="ds-button ds-button--yellow" href="/projects/portfolio-background/">See the case study</a>
+            </div>
+            <div class="mockup mockup--wave"><span>Live background study placeholder</span></div>
+          </article>
+
+          <article id="vibechat" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy">
+              <p class="eyebrow">Product design · CareerFoundry</p>
+              <h2>VibeChat for Spotify</h2>
+              <p>
+                A social listening concept exploring how music taste, chat, and
+                lightweight discovery could live inside Spotify.
+              </p>
+              <a class="ds-button ds-button--plum" href="/work/#vibechat">See the overview</a>
+            </div>
+            <div class="mockup-cluster">
+              <div class="mockup mockup--phone"><span>App flow mockup</span></div>
+              <div class="mockup mockup--phone mockup--alt"><span>Chat screen mockup</span></div>
             </div>
           </article>
-          <article>
-            <span class="decision-number">C</span>
-            <div>
-              <h3>Grain as the defining visual effect</h3>
+
+          <article id="vacasa-graphics" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy">
+              <p class="eyebrow">Graphic design</p>
+              <h2>Vacasa Graphic Design</h2>
               <p>
-                Grain looked beautiful in references, especially the soft retro
-                airbrushed examples. On the live surface, it also introduced aliasing,
-                banding, muddy luminance, and scale issues. I kept texture as a tuning
-                option, but stopped asking it to carry the whole identity.
+                Flyers, signage, welcome package materials, and fridge magnets created
+                for consistent guest and office communication across eight offices.
               </p>
-              <strong class="decision-result">Decision: treat texture as optional, not structural.</strong>
+              <a class="ds-button ds-button--forest" href="/projects/vacasa-graphics/">See the case study</a>
+            </div>
+            <div class="mockup-collage">
+              <div class="mockup mockup--print"><span>Flyer</span></div>
+              <div class="mockup mockup--print"><span>Signage</span></div>
+              <div class="mockup mockup--print"><span>Welcome card</span></div>
             </div>
           </article>
-        </div>
-        </div>
-      </section>
 
-      <section class="collaboration-band content-section">
-        <div class="glass-pane collaboration-panel">
-        <div class="collaboration-band__intro">
-          <p class="eyebrow">Working with Codex</p>
-          <h2>I used AI as an implementation partner, not an idea generator.</h2>
-        </div>
-        <div class="collaboration-flow" aria-label="Codex collaboration loop">
-          <div><span>1</span><strong>Observe</strong><p>I described what felt off in visual language: muddy, too fast, snapping, tiled.</p></div>
-          <div><span>2</span><strong>Instrument</strong><p>Codex turned those observations into controls, logs, counters, and diagnostics.</p></div>
-          <div><span>3</span><strong>Compare</strong><p>I tested changes live, then came back with specific feedback and visual references.</p></div>
-          <div><span>4</span><strong>Converge</strong><p>Useful experiments became shared settings. Brittle branches got retired.</p></div>
-        </div>
-        <blockquote>
-          “The most useful prompts were not vague requests for polish. They were
-          specific descriptions of perception: the camera feels too high, the grain is
-          mapped too large, the frame darkens when the effect turns on.”
-        </blockquote>
-        </div>
-      </section>
-
-      <section id="technical" class="content-section technical">
-        <div class="paper-panel">
-        <div class="section-heading section-heading--wide">
-          <p class="eyebrow">Technical evolution</p>
-          <h2>A small rendering system grew around one equation.</h2>
-        </div>
-
-        <div class="architecture" aria-label="Final rendering architecture">
-          <div class="architecture__node">
-            <span>01</span><strong>Shared configuration</strong>
-            <p>Wave, camera, path, palette, quality limits, and effects.</p>
-          </div>
-          <div class="architecture__connector" aria-hidden="true">→</div>
-          <div class="architecture__node">
-            <span>02</span><strong>Wave renderer</strong>
-            <p>Vertex displacement with a GLSL color and effects pipeline.</p>
-          </div>
-          <div class="architecture__connector" aria-hidden="true">→</div>
-          <div class="architecture__node">
-            <span>03</span><strong>Experience layer</strong>
-            <p>The tuner previews the path; portfolio scroll drives that same function.</p>
-          </div>
-        </div>
-
-        <div class="technical-grid">
-          <article>
-            <p class="kicker">Wave model</p>
-            <h3>Displacement before decoration</h3>
-            <p>
-              Each mesh vertex samples the selected wave function. Height values are
-              normalized every frame, so the full palette remains visible even when
-              amplitude, damping, or camera angle changes.
-            </p>
+          <article id="celtic-websites" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy">
+              <p class="eyebrow">Websites · systems</p>
+              <h2>Celtic Cabinets + Celtic Nations</h2>
+              <p>
+                Website and operational system work for a local business ecosystem,
+                balancing clear presentation with practical internal workflows.
+              </p>
+              <a class="ds-button ds-button--yellow" href="/work/#celtic-websites">See the overview</a>
+            </div>
+            <div class="mockup mockup--desktop"><span>Website mockup placeholder</span></div>
           </article>
-          <article>
-            <p class="kicker">Camera model</p>
-            <h3>One path, two interfaces</h3>
-            <p>
-              The tuner’s path scrubber and the live page call the same spiral-camera
-              function. That removed the framing mismatch that appeared when each
-              interface calculated camera movement on its own.
-            </p>
-          </article>
-          <article>
-            <p class="kicker">Performance model</p>
-            <h3>Quality can move both directions</h3>
-            <p>
-              The renderer targets 30 fps. It reduces mesh density before device pixel
-              ratio, never drops below 300 segments, and raises quality again after
-              the device shows sustained headroom.
-            </p>
-          </article>
-          <article>
-            <p class="kicker">Post-processing</p>
-            <h3>Effects without a darker frame</h3>
-            <p>
-              Chromatic aberration, diffusion, and halation use a multisampled
-              full-resolution render target. Matching Three.js color-space conversion
-              kept the post-process pass from quietly dimming the entire image.
-            </p>
-          </article>
-        </div>
         </div>
       </section>
 
       <section class="closing">
         <div class="glass-pane closing__pane">
-          <p class="eyebrow">Outcome</p>
-          <h2>The final background is also the documentation.</h2>
+          <p class="eyebrow">Next layer</p>
+          <h2>Start broad, then dive deep.</h2>
           <p>
-            As you scroll this page, the background follows the same camera path
-            described above. The performance readout is intentionally visible in this
-            prototype, so the design claim stays inspectable instead of becoming a
-            hand-wavy flourish.
+            The work page organizes the full portfolio by product design, websites,
+            graphic design, and software solutions. Each case study gets more specific
+            about process, constraints, tools, and outcomes.
           </p>
         </div>
-        <a class="brand-button brand-button--orange" href="/">Explore the tuner <span aria-hidden="true">↗</span></a>
+        <a class="brand-button brand-button--orange" href="/work/">Go to the work index</a>
       </section>
     </main>
 
