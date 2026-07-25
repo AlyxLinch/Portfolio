@@ -23,6 +23,7 @@ const EXPONENT_MIN = 2;
 const EXPONENT_MAX = 20;
 const FRAME_RATE = 60;
 const FRAME_INTERVAL = 1000 / FRAME_RATE;
+const ENDPOINT_HOLD_DURATION = 2000;
 const interpolationCurves = {
   linear: (progress) => progress,
   "ease-in": (progress) => progress ** 3,
@@ -38,7 +39,7 @@ let currentExponent = Number(startExponentInput.value);
 let animationFrameId = null;
 let animationElapsed = 0;
 let previousTimestamp = null;
-let previousStep = -1;
+let previousFrameKey = "";
 let isPlaying = false;
 let calculatedEndExponent = 12;
 let canvasPixelRatio = 1;
@@ -67,6 +68,57 @@ function getDurationMilliseconds() {
 
 function getInterpolatedProgress(progress) {
   return interpolationCurves[interpolationStyle](progress);
+}
+
+function getLoopFrame(elapsed, duration) {
+  const totalSteps = Math.max(1, Math.round(duration / FRAME_INTERVAL));
+  const cycleDuration = duration * 2 + ENDPOINT_HOLD_DURATION * 2;
+  const cycleElapsed = elapsed % cycleDuration;
+  const forwardStart = ENDPOINT_HOLD_DURATION;
+  const endHoldStart = forwardStart + duration;
+  const reverseStart = endHoldStart + ENDPOINT_HOLD_DURATION;
+
+  if (cycleElapsed < forwardStart) {
+    return {
+      key: "hold-start",
+      exponentProgress: 0,
+      status: "Holding start"
+    };
+  }
+
+  if (cycleElapsed < endHoldStart) {
+    const step = Math.min(
+      totalSteps,
+      Math.floor((cycleElapsed - forwardStart) / FRAME_INTERVAL)
+    );
+    const progress = step / totalSteps;
+
+    return {
+      key: `forward-${step}`,
+      exponentProgress: progress,
+      status: `Forward ${Math.round(progress * 100)}%`
+    };
+  }
+
+  if (cycleElapsed < reverseStart) {
+    return {
+      key: "hold-end",
+      exponentProgress: 1,
+      status: "Holding end"
+    };
+  }
+
+  const step = Math.min(
+    totalSteps,
+    Math.floor((cycleElapsed - reverseStart) / FRAME_INTERVAL)
+  );
+  const progress = step / totalSteps;
+
+  return {
+    key: `reverse-${step}`,
+    exponentProgress: 1 - progress,
+    status: `Reverse ${Math.round(progress * 100)}%`
+  };
 }
 
 function squirclePoint(angle, radius, exponent) {
@@ -193,19 +245,10 @@ function resetAnimation() {
   setPlaying(false);
   animationElapsed = 0;
   previousTimestamp = null;
-  previousStep = -1;
+  previousFrameKey = "";
   currentExponent = getStartExponent();
   animationStatus.value = `Ready · ${formatNumber(currentExponent)}`;
   render();
-}
-
-function finishAnimation() {
-  currentExponent = getEndExponent();
-  animationElapsed = getDurationMilliseconds();
-  previousTimestamp = null;
-  render();
-  setPlaying(false);
-  animationStatus.value = `Complete · ${formatNumber(currentExponent)}`;
 }
 
 function animate(timestamp) {
@@ -220,23 +263,15 @@ function animate(timestamp) {
     previousTimestamp = timestamp;
   }
 
-  const duration = getDurationMilliseconds();
-  const totalSteps = Math.max(1, Math.round(duration / FRAME_INTERVAL));
-  const currentStep = Math.min(totalSteps, Math.floor(animationElapsed / FRAME_INTERVAL));
+  const loopFrame = getLoopFrame(animationElapsed, getDurationMilliseconds());
 
-  if (currentStep !== previousStep) {
-    const progress = currentStep / totalSteps;
-    const interpolatedProgress = getInterpolatedProgress(progress);
+  if (loopFrame.key !== previousFrameKey) {
+    const interpolatedProgress = getInterpolatedProgress(loopFrame.exponentProgress);
     const startExponent = getStartExponent();
     currentExponent = startExponent * Math.pow(getEndExponent() / startExponent, interpolatedProgress);
-    previousStep = currentStep;
-    animationStatus.value = `${Math.round(progress * 100)}% · ${formatNumber(currentExponent)}`;
+    previousFrameKey = loopFrame.key;
+    animationStatus.value = `${loopFrame.status} · ${formatNumber(currentExponent)}`;
     render();
-  }
-
-  if (animationElapsed >= duration) {
-    finishAnimation();
-    return;
   }
 
   animationFrameId = requestAnimationFrame(animate);
@@ -248,12 +283,6 @@ function toggleAnimation() {
     previousTimestamp = null;
     animationStatus.value = `Paused · ${formatNumber(currentExponent)}`;
     return;
-  }
-
-  if (animationElapsed >= getDurationMilliseconds()) {
-    animationElapsed = 0;
-    previousStep = -1;
-    currentExponent = getStartExponent();
   }
 
   setPlaying(true);

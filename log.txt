@@ -30,3 +30,5 @@
 - Changed the animation from linear addition to geometric interpolation, giving every 60 Hz step the same proportional exponent increase.
 - Added a custom interpolation-style dropdown using the portfolio design system.
 - Named the existing geometric progression "Linear" because it reads as visually linear against the squircle function, with additional cubic ease-in, ease-out, and ease-in-out timing options.
+- Changed playback into a continuous boomerang loop that retraces the selected interpolation curve in reverse.
+- Added fixed two-second holds at both the starting and ending exponent while preserving pause/resume and the selected travel duration for each direction.
