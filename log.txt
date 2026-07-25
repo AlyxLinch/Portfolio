@@ -23,3 +23,6 @@
 - Removed the remaining axes, numbers, and scale control to make the canvas a pure squircle visualization.
 - Added editable starting exponent and duration fields, an ending exponent slider, and a play/pause control.
 - The animation now advances through a fixed 60 exponent steps per second and completes in the selected duration (four seconds by default).
+- Changed the squircle from a glowing outline to a solid fill with no shadow.
+- Replaced the ending exponent slider with a cached display-aware calculation based on canvas size and device pixel ratio.
+- The terminal exponent is solved where the curve reaches the center of the corner pixel; it is recalculated only when the rendered screen size or pixel density changes.

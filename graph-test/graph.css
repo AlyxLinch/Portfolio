@@ -132,6 +132,16 @@ body {
   font-size: 13px;
 }
 
+.calculated-value {
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  box-sizing: border-box;
+  border: 1px solid rgb(255 253 248 / 0.24);
+  padding: 0 10px;
+  background: rgb(37 22 5 / 0.18);
+}
+
 .play-control {
   display: grid;
   grid-template-columns: minmax(112px, 1fr) auto;

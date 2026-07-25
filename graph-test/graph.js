@@ -1,7 +1,6 @@
 const canvas = document.getElementById("graph-canvas");
 const context = canvas.getContext("2d");
 const startExponentInput = document.getElementById("start-exponent");
-const endExponentSlider = document.getElementById("end-exponent");
 const endExponentOutput = document.getElementById("end-exponent-output");
 const durationInput = document.getElementById("duration-input");
 const playToggle = document.getElementById("play-toggle");
@@ -12,8 +11,7 @@ const functionLabel = document.getElementById("function-label");
 
 const graph = {
   padding: 52,
-  curveColor: "#5d0e41",
-  curveGlow: "#ff1d92"
+  fillColor: "#5d0e41"
 };
 
 const EXPONENT_MIN = 2;
@@ -27,6 +25,9 @@ let animationElapsed = 0;
 let previousTimestamp = null;
 let previousStep = -1;
 let isPlaying = false;
+let calculatedEndExponent = 12;
+let canvasPixelRatio = 1;
+let canvasSignature = "";
 
 function formatNumber(value, places = 1) {
   return Number(value).toFixed(places);
@@ -41,7 +42,7 @@ function getStartExponent() {
 }
 
 function getEndExponent() {
-  return Number(endExponentSlider.value);
+  return calculatedEndExponent;
 }
 
 function getDurationMilliseconds() {
@@ -61,16 +62,25 @@ function squirclePoint(angle, radius, exponent) {
 
 function resizeCanvas() {
   const rect = canvas.getBoundingClientRect();
-  const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+  const pixelRatio = Math.max(1, window.devicePixelRatio || 1);
+  const nextSignature = `${rect.width}x${rect.height}@${pixelRatio}`;
 
   canvas.width = Math.round(rect.width * pixelRatio);
   canvas.height = Math.round(rect.height * pixelRatio);
   context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  canvasPixelRatio = pixelRatio;
+
+  if (nextSignature === canvasSignature) {
+    return false;
+  }
+
+  canvasSignature = nextSignature;
+  return true;
 }
 
 function getPlotBox() {
-  const width = canvas.width / Math.min(window.devicePixelRatio || 1, 2);
-  const height = canvas.height / Math.min(window.devicePixelRatio || 1, 2);
+  const width = canvas.width / canvasPixelRatio;
+  const height = canvas.height / canvasPixelRatio;
   const padding = width < 520 ? 34 : graph.padding;
   const size = Math.max(0, Math.min(width, height) - padding * 2);
   const left = (width - size) / 2;
@@ -86,6 +96,15 @@ function getPlotBox() {
   };
 }
 
+function calculateTerminalExponent(box) {
+  const radiusInPixels = box.width * 0.42 * canvasPixelRatio;
+  const cornerPixelCenter = Math.max(0.5, radiusInPixels - 0.5);
+  const diagonalRatio = cornerPixelCenter / radiusInPixels;
+  const exponent = -Math.LN2 / Math.log(diagonalRatio);
+
+  return Math.ceil(exponent * 10) / 10;
+}
+
 function drawCurve(box, exponent) {
   const samples = 360;
   const radius = box.width * 0.42;
@@ -93,16 +112,7 @@ function drawCurve(box, exponent) {
   const centerY = box.top + box.height / 2;
 
   context.save();
-  context.beginPath();
-  context.rect(box.left, box.top, box.width, box.height);
-  context.clip();
-
-  context.lineCap = "round";
-  context.lineJoin = "round";
-  context.shadowColor = graph.curveGlow;
-  context.shadowBlur = 18;
-  context.strokeStyle = graph.curveColor;
-  context.lineWidth = 4;
+  context.fillStyle = graph.fillColor;
   context.beginPath();
 
   for (let index = 0; index <= samples; index += 1) {
@@ -119,13 +129,13 @@ function drawCurve(box, exponent) {
   }
 
   context.closePath();
-  context.stroke();
+  context.fill();
   context.restore();
 }
 
 function render() {
-  const width = canvas.width / Math.min(window.devicePixelRatio || 1, 2);
-  const height = canvas.height / Math.min(window.devicePixelRatio || 1, 2);
+  const width = canvas.width / canvasPixelRatio;
+  const height = canvas.height / canvasPixelRatio;
   const box = getPlotBox();
 
   context.clearRect(0, 0, width, height);
@@ -136,8 +146,14 @@ function render() {
 }
 
 function updateGraph() {
-  resizeCanvas();
-  render();
+  const dimensionsChanged = resizeCanvas();
+
+  if (dimensionsChanged) {
+    calculatedEndExponent = calculateTerminalExponent(getPlotBox());
+    resetAnimation();
+  } else {
+    render();
+  }
 }
 
 function setPlaying(nextIsPlaying) {
@@ -232,15 +248,6 @@ startExponentInput.addEventListener("input", () => {
 startExponentInput.addEventListener("change", () => {
   startExponentInput.value = formatNumber(getStartExponent());
   resetAnimation();
-});
-
-endExponentSlider.addEventListener("input", () => {
-  endExponentOutput.value = formatNumber(getEndExponent());
-
-  if (!isPlaying && animationElapsed >= getDurationMilliseconds()) {
-    currentExponent = getEndExponent();
-    render();
-  }
 });
 
 durationInput.addEventListener("change", () => {
