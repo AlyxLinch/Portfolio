@@ -9,6 +9,10 @@ const playToggleIcon = playToggle.querySelector(".play-toggle__icon");
 const playToggleLabel = playToggle.querySelector(".play-toggle__label");
 const animationStatus = document.getElementById("animation-status");
 const functionLabel = document.getElementById("function-label");
+const interpolationDropdown = document.getElementById("interpolation-dropdown");
+const interpolationTrigger = interpolationDropdown.querySelector(".ds-dropdown__trigger");
+const interpolationValue = interpolationDropdown.querySelector("[data-dropdown-value]");
+const interpolationOptions = Array.from(interpolationDropdown.querySelectorAll(".ds-dropdown__option"));
 
 const graph = {
   padding: 52,
@@ -19,6 +23,16 @@ const EXPONENT_MIN = 2;
 const EXPONENT_MAX = 20;
 const FRAME_RATE = 60;
 const FRAME_INTERVAL = 1000 / FRAME_RATE;
+const interpolationCurves = {
+  linear: (progress) => progress,
+  "ease-in": (progress) => progress ** 3,
+  "ease-out": (progress) => 1 - (1 - progress) ** 3,
+  "ease-in-out": (progress) => (
+    progress < 0.5
+      ? 4 * progress ** 3
+      : 1 - ((-2 * progress + 2) ** 3) / 2
+  )
+};
 
 let currentExponent = Number(startExponentInput.value);
 let animationFrameId = null;
@@ -29,6 +43,7 @@ let isPlaying = false;
 let calculatedEndExponent = 12;
 let canvasPixelRatio = 1;
 let canvasSignature = "";
+let interpolationStyle = "linear";
 
 function formatNumber(value, places = 1) {
   return Number(value).toFixed(places);
@@ -48,6 +63,10 @@ function getEndExponent() {
 
 function getDurationMilliseconds() {
   return clamp(Number(durationInput.value) || 4, 0.25, 30) * 1000;
+}
+
+function getInterpolatedProgress(progress) {
+  return interpolationCurves[interpolationStyle](progress);
 }
 
 function squirclePoint(angle, radius, exponent) {
@@ -207,8 +226,9 @@ function animate(timestamp) {
 
   if (currentStep !== previousStep) {
     const progress = currentStep / totalSteps;
+    const interpolatedProgress = getInterpolatedProgress(progress);
     const startExponent = getStartExponent();
-    currentExponent = startExponent * Math.pow(getEndExponent() / startExponent, progress);
+    currentExponent = startExponent * Math.pow(getEndExponent() / startExponent, interpolatedProgress);
     previousStep = currentStep;
     animationStatus.value = `${Math.round(progress * 100)}% · ${formatNumber(currentExponent)}`;
     render();
@@ -244,6 +264,60 @@ function toggleAnimation() {
 
 startExponentInput.addEventListener("input", () => {
   resetAnimation();
+});
+
+function closeInterpolationDropdown() {
+  interpolationDropdown.classList.remove("is-open");
+  interpolationTrigger.setAttribute("aria-expanded", "false");
+}
+
+interpolationTrigger.addEventListener("click", () => {
+  const shouldOpen = !interpolationDropdown.classList.contains("is-open");
+
+  interpolationDropdown.classList.toggle("is-open", shouldOpen);
+  interpolationTrigger.setAttribute("aria-expanded", String(shouldOpen));
+
+  if (shouldOpen) {
+    interpolationOptions
+      .find((option) => option.getAttribute("aria-selected") === "true")
+      ?.focus();
+  }
+});
+
+interpolationOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    interpolationStyle = option.dataset.style;
+    interpolationValue.textContent = option.textContent;
+
+    interpolationOptions.forEach((entry) => {
+      entry.setAttribute("aria-selected", String(entry === option));
+    });
+
+    closeInterpolationDropdown();
+    interpolationTrigger.focus();
+    resetAnimation();
+  });
+
+  option.addEventListener("keydown", (event) => {
+    const currentIndex = interpolationOptions.indexOf(option);
+
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      const direction = event.key === "ArrowDown" ? 1 : -1;
+      interpolationOptions[
+        (currentIndex + direction + interpolationOptions.length) % interpolationOptions.length
+      ].focus();
+    } else if (event.key === "Escape") {
+      closeInterpolationDropdown();
+      interpolationTrigger.focus();
+    }
+  });
+});
+
+document.addEventListener("click", (event) => {
+  if (!interpolationDropdown.contains(event.target)) {
+    closeInterpolationDropdown();
+  }
 });
 
 durationInput.addEventListener("change", () => {

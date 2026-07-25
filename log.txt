@@ -28,3 +28,5 @@
 - The terminal exponent is solved where the curve reaches the center of the corner pixel; it is recalculated only when the rendered screen size or pixel density changes.
 - Replaced the starting exponent number field with a live value slider.
 - Changed the animation from linear addition to geometric interpolation, giving every 60 Hz step the same proportional exponent increase.
+- Added a custom interpolation-style dropdown using the portfolio design system.
+- Named the existing geometric progression "Linear" because it reads as visually linear against the squircle function, with additional cubic ease-in, ease-out, and ease-in-out timing options.

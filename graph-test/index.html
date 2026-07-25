@@ -43,6 +43,24 @@
             <output id="end-exponent-output" class="calculated-value">Calculating...</output>
           </div>
 
+          <div class="control-row interpolation-control">
+            <span>
+              <strong>Interpolation style</strong>
+              <small>Shape the animation timing</small>
+            </span>
+            <div id="interpolation-dropdown" class="ds-dropdown" data-dropdown>
+              <button class="ds-dropdown__trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span data-dropdown-value>Linear</span>
+              </button>
+              <div class="ds-dropdown__menu" role="listbox" aria-label="Interpolation style">
+                <button class="ds-dropdown__option" type="button" role="option" data-style="linear" aria-selected="true">Linear</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-style="ease-in" aria-selected="false">Ease in</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-style="ease-out" aria-selected="false">Ease out</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-style="ease-in-out" aria-selected="false">Ease in-out</button>
+              </div>
+            </div>
+          </div>
+
           <label class="control-row">
             <span>
               <strong>Duration</strong>

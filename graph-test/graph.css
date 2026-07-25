@@ -73,9 +73,9 @@ body {
 
 .controls-card {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 1px;
-  overflow: hidden;
+  overflow: visible;
   min-width: 0;
   border-color: rgb(255 253 248 / 0.36);
   background: rgb(241 237 229 / 0.13);
@@ -140,6 +140,31 @@ body {
   border: 1px solid rgb(255 253 248 / 0.24);
   padding: 0 10px;
   background: rgb(37 22 5 / 0.18);
+}
+
+.interpolation-control {
+  position: relative;
+  z-index: 2;
+}
+
+.interpolation-control .ds-dropdown__trigger {
+  min-height: 36px;
+  border: 1px solid rgb(255 253 248 / 0.34);
+  padding: 6px 10px;
+  background: rgb(37 22 5 / 0.3);
+  color: var(--color-white);
+  font: 600 13px var(--font-display);
+}
+
+.interpolation-control .ds-dropdown__menu {
+  top: auto;
+  bottom: calc(100% + 4px);
+  border-width: 1px;
+  font: 600 13px var(--font-display);
+}
+
+.interpolation-control .ds-dropdown__option {
+  padding: 9px 10px;
 }
 
 .play-control {
