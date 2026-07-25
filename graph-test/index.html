@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta
       name="description"
-      content="Interactive logarithmic graph test with live axis and coefficient controls."
+      content="Interactive reciprocal graph test with live quadrant, axis, and coefficient controls."
     >
-    <title>Logarithmic Graph Test</title>
+    <title>Reciprocal Graph Test</title>
     <link rel="stylesheet" href="/shared/design-system.css">
     <link rel="stylesheet" href="/graph-test/graph.css">
   </head>
@@ -15,17 +15,31 @@
     <main class="graph-page">
       <section class="graph-shell">
         <header class="graph-header">
-          <p class="ds-label">Quadrant IV logarithmic test</p>
+          <p class="ds-label">Reciprocal quadrant test</p>
           <h1 class="ds-display ds-display--title ds-gradient-text ds-gradient-text--yellow">
-            <span id="function-label">y = -1.00 · ln(x + 1)</span>
+            <span id="function-label">QIV · y = -1.00 / x</span>
           </h1>
         </header>
 
-        <section class="graph-card ds-paper" aria-label="Interactive logarithmic graph">
-          <canvas id="graph-canvas" width="1200" height="720" aria-label="Graph of a negative logarithmic function in quadrant 4"></canvas>
+        <section class="graph-card ds-paper" aria-label="Interactive reciprocal graph">
+          <canvas id="graph-canvas" width="960" height="960" aria-label="Graph of a reciprocal function in one selected quadrant"></canvas>
         </section>
 
         <section class="controls-card ds-glass" aria-label="Graph controls">
+          <div class="control-row control-row--quadrants">
+            <span>
+              <strong>Quadrant</strong>
+              <small>Reflect the curve into view</small>
+            </span>
+            <div class="quadrant-toggle" role="group" aria-label="Choose graph quadrant">
+              <button class="quadrant-button" type="button" data-quadrant="1" aria-pressed="false">I</button>
+              <button class="quadrant-button" type="button" data-quadrant="2" aria-pressed="false">II</button>
+              <button class="quadrant-button" type="button" data-quadrant="3" aria-pressed="false">III</button>
+              <button class="quadrant-button is-active" type="button" data-quadrant="4" aria-pressed="true">IV</button>
+            </div>
+            <output id="quadrant-output">QIV</output>
+          </div>
+
           <label class="control-row">
             <span>
               <strong>Axis scale</strong>

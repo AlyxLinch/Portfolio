@@ -11,3 +11,7 @@
 - Removed the in-graph scale annotation on compact canvas widths because the slider output already shows the scale.
 - Adjusted mobile graph frame to a square-ish viewport with smaller plot padding so the graph fits better on phones.
 - Removed the compact in-canvas "Quadrant IV" label because it crowded the right edge; the page title already identifies the quadrant.
+- User requested a one-screen graph test with no scrolling, a reciprocal function, equal x/y axis lengths, no grid lines or tick marks, and a quadrant toggle that reflects the function into whichever quadrant is selected.
+- Reworked the graph test around y = a / x, with sign reflection for quadrants I-IV so the reciprocal curve is always visible in the chosen quadrant.
+- Updated the layout to size from viewport height, keep the graph square, and keep the controls/header within one screen.
+- Tightened the narrow-screen sizing so the graph panel stays square while fitting beside the full control stack without page scrolling.
