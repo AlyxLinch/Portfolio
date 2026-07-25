@@ -1,0 +1,140 @@
+body {
+  min-height: 100svh;
+  margin: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgb(0 226 204 / 0.18), transparent 28%),
+    radial-gradient(circle at 82% 22%, rgb(255 29 146 / 0.16), transparent 30%),
+    linear-gradient(135deg, var(--color-brown), var(--color-black));
+  color: var(--color-white);
+  overflow-x: hidden;
+}
+
+.graph-page {
+  min-height: 100svh;
+  padding: clamp(24px, 6vw, 78px);
+}
+
+.graph-shell {
+  display: grid;
+  gap: clamp(20px, 4vw, 42px);
+  min-width: 0;
+  max-width: 1260px;
+  margin: 0 auto;
+}
+
+.graph-header {
+  display: grid;
+  gap: 14px;
+  padding-top: clamp(24px, 5vw, 70px);
+}
+
+.graph-header h1 {
+  max-width: 980px;
+  margin: 0;
+  color: var(--color-yellow);
+  font-size: clamp(34px, 6vw, 56px);
+  overflow-wrap: anywhere;
+}
+
+.graph-card {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  padding: clamp(14px, 2vw, 24px);
+  box-shadow: 14px 14px 0 rgb(0 0 0 / 0.26);
+}
+
+#graph-canvas {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 5 / 3;
+  border: 1px solid rgb(37 22 5 / 0.45);
+  background: var(--color-cream);
+}
+
+.controls-card {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  min-width: 0;
+  border-color: rgb(255 253 248 / 0.36);
+  background: rgb(241 237 229 / 0.13);
+}
+
+.control-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.55fr) minmax(180px, 1fr) 58px;
+  gap: 18px;
+  align-items: center;
+  padding: 22px;
+  background: rgb(37 22 5 / 0.24);
+  color: var(--color-white);
+  min-width: 0;
+}
+
+.control-row strong,
+.control-row output {
+  font-family: var(--font-display);
+}
+
+.control-row strong {
+  display: block;
+  font-size: 15px;
+}
+
+.control-row small {
+  display: block;
+  margin-top: 4px;
+  color: rgb(255 253 248 / 0.68);
+  font-size: 12px;
+}
+
+.control-row input {
+  width: 100%;
+  min-width: 0;
+  accent-color: var(--color-cyan);
+}
+
+.control-row output {
+  color: var(--color-yellow);
+  font-size: 13px;
+  text-align: right;
+}
+
+@media (max-width: 780px) {
+  .graph-page {
+    padding: 22px;
+  }
+
+  .graph-header h1 {
+    max-width: calc(100vw - 44px);
+    font-size: 25px;
+    line-height: 0.95;
+  }
+
+  .graph-card {
+    width: calc(100vw - 44px);
+    padding: 12px;
+  }
+
+  #graph-canvas {
+    aspect-ratio: 1 / 0.82;
+  }
+
+  #function-label {
+    display: block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .controls-card,
+  .control-row {
+    grid-template-columns: 1fr;
+  }
+
+  .control-row output {
+    text-align: left;
+  }
+}

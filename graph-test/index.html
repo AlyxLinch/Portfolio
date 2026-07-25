@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta
+      name="description"
+      content="Interactive logarithmic graph test with live axis and coefficient controls."
+    >
+    <title>Logarithmic Graph Test</title>
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <link rel="stylesheet" href="/graph-test/graph.css">
+  </head>
+  <body>
+    <main class="graph-page">
+      <section class="graph-shell">
+        <header class="graph-header">
+          <p class="ds-label">Quadrant IV logarithmic test</p>
+          <h1 class="ds-display ds-display--title ds-gradient-text ds-gradient-text--yellow">
+            <span id="function-label">y = -1.00 · ln(x + 1)</span>
+          </h1>
+        </header>
+
+        <section class="graph-card ds-paper" aria-label="Interactive logarithmic graph">
+          <canvas id="graph-canvas" width="1200" height="720" aria-label="Graph of a negative logarithmic function in quadrant 4"></canvas>
+        </section>
+
+        <section class="controls-card ds-glass" aria-label="Graph controls">
+          <label class="control-row">
+            <span>
+              <strong>Axis scale</strong>
+              <small>Zoom x and y together</small>
+            </span>
+            <input id="scale-slider" type="range" min="4" max="24" value="12" step="0.5">
+            <output id="scale-output">12.0</output>
+          </label>
+
+          <label class="control-row">
+            <span>
+              <strong>Coefficient</strong>
+              <small>Adjust curve depth</small>
+            </span>
+            <input id="coefficient-slider" type="range" min="0.1" max="5" value="1" step="0.05">
+            <output id="coefficient-output">1.00</output>
+          </label>
+        </section>
+      </section>
+    </main>
+
+    <script type="module" src="/graph-test/graph.js"></script>
+  </body>
+</html>

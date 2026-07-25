@@ -1,0 +1,13 @@
+2026-07-25
+- User requested a new test page on the domain for a graph experiment.
+- Added development log file to track requests and implementation notes for this testing work.
+- Planned a standalone /graph-test/ page with a framed graph, live logarithmic function label, axis scale slider, and coefficient slider.
+- Implemented /graph-test/ with HTML, CSS, and canvas JavaScript.
+- Function is y = -a · ln(x + 1), drawn for x >= 0 so the curve lives in quadrant 4 below the x-axis.
+- Added one slider for congruent x/y axis scale and one slider for coefficient a; the displayed function updates live.
+- Visual QA found the equation label too dark and wide on mobile; changed it to the yellow gradient treatment and added responsive sizing.
+- Moved the graph scale annotation away from the axis line for cleaner readability.
+- Mobile QA found horizontal overflow from the graph/equation layout; clamped the graph shell/card/canvas and reduced compact equation sizing.
+- Removed the in-graph scale annotation on compact canvas widths because the slider output already shows the scale.
+- Adjusted mobile graph frame to a square-ish viewport with smaller plot padding so the graph fits better on phones.
+- Removed the compact in-canvas "Quadrant IV" label because it crowded the right edge; the page title already identifies the quadrant.
