@@ -1,6 +1,7 @@
 const canvas = document.getElementById("graph-canvas");
 const context = canvas.getContext("2d");
 const startExponentInput = document.getElementById("start-exponent");
+const startExponentOutput = document.getElementById("start-exponent-output");
 const endExponentOutput = document.getElementById("end-exponent-output");
 const durationInput = document.getElementById("duration-input");
 const playToggle = document.getElementById("play-toggle");
@@ -141,6 +142,7 @@ function render() {
   context.clearRect(0, 0, width, height);
   drawCurve(box, currentExponent);
 
+  startExponentOutput.value = formatNumber(getStartExponent());
   endExponentOutput.value = formatNumber(getEndExponent());
   functionLabel.textContent = `|x|ⁿ + |y|ⁿ = 1 · n = ${formatNumber(currentExponent)}`;
 }
@@ -205,7 +207,8 @@ function animate(timestamp) {
 
   if (currentStep !== previousStep) {
     const progress = currentStep / totalSteps;
-    currentExponent = getStartExponent() + (getEndExponent() - getStartExponent()) * progress;
+    const startExponent = getStartExponent();
+    currentExponent = startExponent * Math.pow(getEndExponent() / startExponent, progress);
     previousStep = currentStep;
     animationStatus.value = `${Math.round(progress * 100)}% · ${formatNumber(currentExponent)}`;
     render();
@@ -240,13 +243,6 @@ function toggleAnimation() {
 }
 
 startExponentInput.addEventListener("input", () => {
-  if (startExponentInput.value !== "") {
-    resetAnimation();
-  }
-});
-
-startExponentInput.addEventListener("change", () => {
-  startExponentInput.value = formatNumber(getStartExponent());
   resetAnimation();
 });
 

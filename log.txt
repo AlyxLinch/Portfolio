@@ -26,3 +26,5 @@
 - Changed the squircle from a glowing outline to a solid fill with no shadow.
 - Replaced the ending exponent slider with a cached display-aware calculation based on canvas size and device pixel ratio.
 - The terminal exponent is solved where the curve reaches the center of the corner pixel; it is recalculated only when the rendered screen size or pixel density changes.
+- Replaced the starting exponent number field with a live value slider.
+- Changed the animation from linear addition to geometric interpolation, giving every 60 Hz step the same proportional exponent increase.
