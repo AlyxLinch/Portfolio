@@ -59,21 +59,112 @@ body {
   box-shadow: 14px 14px 0 rgb(0 0 0 / 0.26);
 }
 
-#graph-canvas {
-  display: block;
+.button-stage {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: clamp(10px, 2.2vmin, 22px);
   width: 100%;
   height: 100%;
   min-width: 0;
-  max-width: 100%;
   box-sizing: border-box;
-  aspect-ratio: 1 / 1;
   border: 1px solid rgb(37 22 5 / 0.45);
+  padding: clamp(12px, 3vmin, 28px);
   background: var(--color-cream);
+}
+
+.shape-button {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-white);
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  text-align: center;
+  cursor: pointer;
+  isolation: isolate;
+}
+
+.shape-button:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 4px;
+}
+
+.shape-button__graphic {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.shape-button__surface {
+  vector-effect: non-scaling-stroke;
+}
+
+.shape-button__copy {
+  position: relative;
+  z-index: 1;
+  max-width: 82%;
+  font-size: clamp(10px, 1.5vmin, 15px);
+  pointer-events: none;
+}
+
+.shape-button--square {
+  width: min(72%, 142px);
+  aspect-ratio: 1;
+}
+
+.shape-button--square .shape-button__surface {
+  fill: var(--color-plum);
+}
+
+.shape-button--landscape {
+  width: min(86%, 190px);
+  aspect-ratio: 4 / 3;
+  color: var(--color-forest);
+}
+
+.shape-button--landscape .shape-button__surface {
+  fill: rgb(0 226 204 / 0.12);
+  stroke: var(--color-forest);
+  stroke-width: 1px;
+}
+
+.shape-button--wide {
+  width: min(96%, 224px);
+  aspect-ratio: 16 / 9;
+}
+
+.shape-button--wide .shape-button__surface {
+  fill: var(--color-forest);
+  stroke: var(--color-cyan);
+  stroke-width: 1px;
+}
+
+.shape-button--portrait {
+  width: min(58%, 118px);
+  aspect-ratio: 3 / 4;
+  color: var(--color-brown);
+}
+
+.shape-button--portrait .shape-button__surface {
+  fill: var(--color-yellow);
+  stroke: var(--color-brown);
+  stroke-width: 1px;
 }
 
 .controls-card {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   overflow: visible;
   min-width: 0;
@@ -93,8 +184,7 @@ body {
 }
 
 .control-row strong,
-.control-row output,
-.play-control output {
+.control-row output {
   font-family: var(--font-display);
 }
 
@@ -167,47 +257,6 @@ body {
   padding: 9px 10px;
 }
 
-.play-control {
-  display: grid;
-  grid-template-columns: minmax(112px, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  min-width: 0;
-  padding: clamp(12px, 2svh, 18px);
-  background: rgb(37 22 5 / 0.24);
-}
-
-.play-toggle {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-width: 0;
-  height: 40px;
-  border: 1px solid var(--color-cyan);
-  border-radius: 0;
-  background: var(--color-cyan);
-  color: var(--color-brown);
-  font: 700 14px var(--font-display);
-  cursor: pointer;
-}
-
-.play-toggle[aria-pressed="true"] {
-  border-color: var(--color-yellow);
-  background: var(--color-yellow);
-}
-
-.play-toggle__icon {
-  width: 14px;
-  text-align: center;
-}
-
-.play-control output {
-  color: var(--color-yellow);
-  font-size: 13px;
-  white-space: nowrap;
-}
-
 @media (max-width: 780px) {
   .graph-page {
     padding: 12px;
@@ -237,8 +286,7 @@ body {
     max-height: none;
   }
 
-  .control-row,
-  .play-control {
+  .control-row {
     grid-template-columns: 1fr;
   }
 

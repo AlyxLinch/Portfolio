@@ -17,12 +17,40 @@
         <header class="graph-header">
           <p class="ds-label">Parametric squircle test</p>
           <h1 class="ds-display ds-display--title ds-gradient-text ds-gradient-text--yellow">
-            <span id="function-label">|x|ⁿ + |y|ⁿ = 1 · n = 4.0</span>
+            <span id="function-label">Hover-driven squircles · n = 4.0</span>
           </h1>
         </header>
 
-        <section class="graph-card ds-paper" aria-label="Interactive squircle graph">
-          <canvas id="graph-canvas" width="960" height="960" aria-label="Four synchronized squircles with different aspect ratios"></canvas>
+        <section class="graph-card ds-paper" aria-label="Interactive squircle button studies">
+          <div class="button-stage">
+            <button class="shape-button shape-button--square" type="button" data-border-width="0">
+              <svg class="shape-button__graphic" aria-hidden="true">
+                <path class="shape-button__surface"></path>
+              </svg>
+              <span class="shape-button__copy">View<br>work</span>
+            </button>
+
+            <button class="shape-button shape-button--landscape" type="button" data-border-width="1">
+              <svg class="shape-button__graphic" aria-hidden="true">
+                <path class="shape-button__surface"></path>
+              </svg>
+              <span class="shape-button__copy">Explore process</span>
+            </button>
+
+            <button class="shape-button shape-button--wide" type="button" data-border-width="1">
+              <svg class="shape-button__graphic" aria-hidden="true">
+                <path class="shape-button__surface"></path>
+              </svg>
+              <span class="shape-button__copy">Read the case study <span aria-hidden="true">↗</span></span>
+            </button>
+
+            <button class="shape-button shape-button--portrait" type="button" data-border-width="1">
+              <svg class="shape-button__graphic" aria-hidden="true">
+                <path class="shape-button__surface"></path>
+              </svg>
+              <span class="shape-button__copy">Start a<br>project</span>
+            </button>
+          </div>
         </section>
 
         <section class="controls-card ds-glass" aria-label="Graph controls">
@@ -38,7 +66,7 @@
           <div class="control-row">
             <span>
               <strong>Ending exponent</strong>
-              <small>Calculated for this display</small>
+              <small>Calculated per button</small>
             </span>
             <output id="end-exponent-output" class="calculated-value">Calculating...</output>
           </div>
@@ -68,14 +96,6 @@
             </span>
             <input id="duration-input" type="number" min="0.25" max="30" value="4" step="0.25">
           </label>
-
-          <div class="play-control">
-            <button id="play-toggle" class="play-toggle" type="button" aria-pressed="false">
-              <span class="play-toggle__icon" aria-hidden="true">▶</span>
-              <span class="play-toggle__label">Play</span>
-            </button>
-            <output id="animation-status" aria-live="polite">Ready · 4.0</output>
-          </div>
         </section>
       </section>
     </main>

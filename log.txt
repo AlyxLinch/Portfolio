@@ -36,3 +36,6 @@
 - Updated the terminal exponent calculation to use the largest physical radius across the full shape set.
 - During the ending hold, the sampled squircles are replaced with exact canvas rectangles so every edge and corner is fully crisp.
 - Snapped the exact endpoint rectangle bounds to the physical device-pixel grid to avoid antialiased half-pixel edges.
+- Converted the four canvas specimens into real HTML buttons with responsive SVG superellipse surfaces and usable text labels.
+- Each button now animates forward once on hover or keyboard focus, holds as a crisp rectangle, and reverses to its starting squircle when hover/focus leaves.
+- Added varied button treatments including solid fills, translucent fill, and 1px outline/accent borders while preserving the four aspect-ratio studies.
