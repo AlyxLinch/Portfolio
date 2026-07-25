@@ -42,3 +42,5 @@
 - Replaced stretched full-rectangle superellipses with a corner-grafting model built from four copies of one square superellipse quadrant.
 - The four undistorted corner curves are now joined by true straight edges, and terminal exponent calculations use the shared square corner radius instead of the rectangle's long side.
 - Reserved a fixed two-line height for the changing equation/title text so the button frame no longer shifts as hover states update the copy.
+- Added an integer FPS input with a 1–1000 range and made the SVG exponent update interval respond to it.
+- Updated defaults to a 0.5-second duration, Ease In interpolation, and starting exponent 11.

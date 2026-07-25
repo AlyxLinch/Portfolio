@@ -1,6 +1,7 @@
 const startExponentInput = document.getElementById("start-exponent");
 const startExponentOutput = document.getElementById("start-exponent-output");
 const endExponentOutput = document.getElementById("end-exponent-output");
+const fpsInput = document.getElementById("fps-input");
 const durationInput = document.getElementById("duration-input");
 const functionLabel = document.getElementById("function-label");
 const interpolationDropdown = document.getElementById("interpolation-dropdown");
@@ -10,8 +11,8 @@ const interpolationOptions = Array.from(interpolationDropdown.querySelectorAll("
 
 const EXPONENT_MIN = 2;
 const EXPONENT_MAX = 20;
-const FRAME_RATE = 60;
-const FRAME_INTERVAL = 1000 / FRAME_RATE;
+const FPS_MIN = 1;
+const FPS_MAX = 1000;
 const CORNER_SAMPLES = 45;
 const interpolationCurves = {
   linear: (progress) => progress,
@@ -37,7 +38,7 @@ const buttonStates = Array.from(document.querySelectorAll(".shape-button")).map(
   stepAccumulator: 0
 }));
 
-let interpolationStyle = "linear";
+let interpolationStyle = "ease-in";
 let animationFrameId = null;
 let previousTimestamp = null;
 let activeButtonState = null;
@@ -55,7 +56,19 @@ function getStartExponent() {
 }
 
 function getDurationMilliseconds() {
-  return clamp(Number(durationInput.value) || 4, 0.25, 30) * 1000;
+  return clamp(Number(durationInput.value) || 0.5, 0.25, 30) * 1000;
+}
+
+function getFramesPerSecond() {
+  return clamp(
+    Math.round(Number(fpsInput.value) || 60),
+    FPS_MIN,
+    FPS_MAX
+  );
+}
+
+function getFrameInterval() {
+  return 1000 / getFramesPerSecond();
 }
 
 function getInterpolatedProgress(progress) {
@@ -260,7 +273,9 @@ function animate(timestamp) {
 
   const delta = timestamp - previousTimestamp;
   previousTimestamp = timestamp;
-  const progressPerStep = FRAME_INTERVAL / getDurationMilliseconds();
+  const duration = getDurationMilliseconds();
+  const frameInterval = Math.min(getFrameInterval(), duration);
+  const progressPerStep = frameInterval / duration;
 
   buttonStates.forEach((state) => {
     if (state.progress === state.targetProgress) {
@@ -269,14 +284,14 @@ function animate(timestamp) {
 
     state.stepAccumulator += delta;
 
-    while (state.stepAccumulator >= FRAME_INTERVAL) {
+    while (state.stepAccumulator >= frameInterval) {
       const direction = Math.sign(state.targetProgress - state.progress);
       const remainingProgress = Math.abs(state.targetProgress - state.progress);
 
       state.progress = remainingProgress <= progressPerStep
         ? state.targetProgress
         : clamp(state.progress + direction * progressPerStep, 0, 1);
-      state.stepAccumulator -= FRAME_INTERVAL;
+      state.stepAccumulator -= frameInterval;
 
       if (
         (direction > 0 && state.progress >= state.targetProgress)
@@ -386,6 +401,11 @@ document.addEventListener("click", (event) => {
 });
 
 startExponentInput.addEventListener("input", resetButtons);
+
+fpsInput.addEventListener("change", () => {
+  fpsInput.value = String(getFramesPerSecond());
+  resetButtons();
+});
 
 durationInput.addEventListener("change", () => {
   durationInput.value = formatNumber(

@@ -17,7 +17,7 @@
         <header class="graph-header">
           <p class="ds-label">Parametric squircle test</p>
           <h1 class="ds-display ds-display--title ds-gradient-text ds-gradient-text--yellow">
-            <span id="function-label">Square corner model × 4 · n = 4.0</span>
+            <span id="function-label">Square corner model × 4 · n = 11.0</span>
           </h1>
         </header>
 
@@ -59,8 +59,8 @@
               <strong>Starting exponent</strong>
               <small>Initial squircle shape</small>
             </span>
-            <input id="start-exponent" type="range" min="2" max="20" value="4" step="0.1">
-            <output id="start-exponent-output">4.0</output>
+            <input id="start-exponent" type="range" min="2" max="20" value="11" step="0.1">
+            <output id="start-exponent-output">11.0</output>
           </label>
 
           <div class="control-row">
@@ -78,11 +78,11 @@
             </span>
             <div id="interpolation-dropdown" class="ds-dropdown" data-dropdown>
               <button class="ds-dropdown__trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
-                <span data-dropdown-value>Linear</span>
+                <span data-dropdown-value>Ease in</span>
               </button>
               <div class="ds-dropdown__menu" role="listbox" aria-label="Interpolation style">
-                <button class="ds-dropdown__option" type="button" role="option" data-style="linear" aria-selected="true">Linear</button>
-                <button class="ds-dropdown__option" type="button" role="option" data-style="ease-in" aria-selected="false">Ease in</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-style="linear" aria-selected="false">Linear</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-style="ease-in" aria-selected="true">Ease in</button>
                 <button class="ds-dropdown__option" type="button" role="option" data-style="ease-out" aria-selected="false">Ease out</button>
                 <button class="ds-dropdown__option" type="button" role="option" data-style="ease-in-out" aria-selected="false">Ease in-out</button>
               </div>
@@ -91,10 +91,18 @@
 
           <label class="control-row">
             <span>
+              <strong>FPS</strong>
+              <small>Exponent updates per second</small>
+            </span>
+            <input id="fps-input" type="number" min="1" max="1000" value="60" step="1" inputmode="numeric">
+          </label>
+
+          <label class="control-row">
+            <span>
               <strong>Duration</strong>
               <small>Seconds in each direction</small>
             </span>
-            <input id="duration-input" type="number" min="0.25" max="30" value="4" step="0.25">
+            <input id="duration-input" type="number" min="0.25" max="30" value="0.5" step="0.25">
           </label>
         </section>
       </section>
