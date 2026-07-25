@@ -15,3 +15,8 @@
 - Reworked the graph test around y = a / x, with sign reflection for quadrants I-IV so the reciprocal curve is always visible in the chosen quadrant.
 - Updated the layout to size from viewport height, keep the graph square, and keep the controls/header within one screen.
 - Tightened the narrow-screen sizing so the graph panel stays square while fitting beside the full control stack without page scrolling.
+2026-07-25
+- Replaced the reciprocal quadrant graph with a complete parametric squircle.
+- Chose a lightweight Canvas 2D superellipse renderer: |x/r|^n + |y/r|^n = 1.
+- Reworked the coefficient slider into a squircle exponent control and removed the quadrant controls and blue reference point.
+- Closed the sampled contour explicitly so the full graph renders without clipped or missing sections.

@@ -4,26 +4,14 @@ const scaleSlider = document.getElementById("scale-slider");
 const coefficientSlider = document.getElementById("coefficient-slider");
 const scaleOutput = document.getElementById("scale-output");
 const coefficientOutput = document.getElementById("coefficient-output");
-const quadrantOutput = document.getElementById("quadrant-output");
 const functionLabel = document.getElementById("function-label");
-const quadrantButtons = Array.from(document.querySelectorAll(".quadrant-button"));
 
 const graph = {
   padding: 58,
   axisColor: "#251605",
   curveColor: "#5d0e41",
   curveGlow: "#ff1d92",
-  pointColor: "#00e2cc",
   labelColor: "rgba(37, 22, 5, 0.58)"
-};
-
-let selectedQuadrant = 4;
-
-const quadrantSettings = {
-  1: { label: "QI", xSign: 1, ySign: 1, formulaSign: "" },
-  2: { label: "QII", xSign: -1, ySign: 1, formulaSign: "-" },
-  3: { label: "QIII", xSign: -1, ySign: -1, formulaSign: "" },
-  4: { label: "QIV", xSign: 1, ySign: -1, formulaSign: "-" }
 };
 
 function formatNumber(value, places = 2) {
@@ -33,28 +21,18 @@ function formatNumber(value, places = 2) {
 function getValues() {
   return {
     scale: Number(scaleSlider.value),
-    coefficient: Number(coefficientSlider.value),
-    quadrant: selectedQuadrant
+    exponent: Number(coefficientSlider.value)
   };
 }
 
-function getQuadrantRange(quadrant, scale) {
-  const { xSign, ySign } = quadrantSettings[quadrant];
+function squirclePoint(angle, radius, exponent) {
+  const cosine = Math.cos(angle);
+  const sine = Math.sin(angle);
+  const power = 2 / exponent;
 
   return {
-    xMin: xSign < 0 ? -scale : 0,
-    xMax: xSign < 0 ? 0 : scale,
-    yMin: ySign < 0 ? -scale : 0,
-    yMax: ySign < 0 ? 0 : scale
-  };
-}
-
-function functionPoint(distanceFromAxis, coefficient, quadrant) {
-  const { xSign, ySign } = quadrantSettings[quadrant];
-
-  return {
-    x: xSign * distanceFromAxis,
-    y: ySign * (coefficient / distanceFromAxis)
+    x: radius * Math.sign(cosine) * Math.pow(Math.abs(cosine), power),
+    y: radius * Math.sign(sine) * Math.pow(Math.abs(sine), power)
   };
 }
 
@@ -85,43 +63,42 @@ function getPlotBox() {
   };
 }
 
-function createMapper(box, scale, quadrant) {
-  const range = getQuadrantRange(quadrant, scale);
-
+function createMapper(box, scale) {
   return {
-    xToPx: (x) => box.left + ((x - range.xMin) / (range.xMax - range.xMin)) * box.width,
-    yToPx: (y) => box.bottom - ((y - range.yMin) / (range.yMax - range.yMin)) * box.height
+    xToPx: (x) => box.left + ((x + scale) / (scale * 2)) * box.width,
+    yToPx: (y) => box.bottom - ((y + scale) / (scale * 2)) * box.height
   };
 }
 
-function drawLabels(box, mapper, scale, quadrant) {
+function drawLabels(box, mapper, scale) {
   const tickStep = scale <= 8 ? 2 : scale <= 16 ? 4 : 6;
-  const range = getQuadrantRange(quadrant, scale);
 
   context.fillStyle = graph.labelColor;
   context.font = "11px Syne, sans-serif";
   context.textAlign = "center";
-  context.textBaseline = range.yMin < 0 ? "bottom" : "top";
+  context.textBaseline = "top";
 
-  for (let x = range.xMin; x <= range.xMax + 0.001; x += tickStep) {
+  for (let x = -scale; x <= scale + 0.001; x += tickStep) {
     const px = mapper.xToPx(x);
 
-    context.fillText(String(Math.round(x)), px, range.yMin < 0 ? box.top - 8 : box.bottom + 8);
+    context.fillText(String(Math.round(x)), px, mapper.yToPx(0) + 8);
   }
 
-  context.textAlign = range.xMin < 0 ? "left" : "right";
+  context.textAlign = "right";
   context.textBaseline = "middle";
 
-  for (let y = range.yMin; y <= range.yMax + 0.001; y += tickStep) {
+  for (let y = -scale; y <= scale + 0.001; y += tickStep) {
+    if (Math.abs(y) < 0.001) {
+      continue;
+    }
+
     const py = mapper.yToPx(y);
 
-    context.fillText(String(Math.round(y)), range.xMin < 0 ? box.right + 8 : box.left - 8, py);
+    context.fillText(String(Math.round(y)), mapper.xToPx(0) - 8, py);
   }
 }
 
-function drawAxes(box, mapper, scale, quadrant) {
-  const compact = box.width < 520;
-  const range = getQuadrantRange(quadrant, scale);
+function drawAxes(box, mapper) {
   const xAxisY = mapper.yToPx(0);
   const yAxisX = mapper.xToPx(0);
 
@@ -136,24 +113,17 @@ function drawAxes(box, mapper, scale, quadrant) {
 
   context.fillStyle = graph.axisColor;
   context.font = "700 12px Syne, sans-serif";
-  context.textAlign = range.xMin < 0 ? "left" : "right";
-  context.textBaseline = range.yMin < 0 ? "bottom" : "top";
-  context.fillText("x", range.xMin < 0 ? box.left + 8 : box.right - 8, range.yMin < 0 ? xAxisY - 12 : xAxisY + 12);
-
-  context.textAlign = range.xMin < 0 ? "left" : "right";
-  context.textBaseline = range.yMin < 0 ? "top" : "bottom";
-  context.fillText("y", range.xMin < 0 ? yAxisX + 12 : yAxisX - 12, range.yMin < 0 ? box.bottom - 18 : box.top + 18);
-
-  if (!compact) {
-    context.textAlign = range.xMin < 0 ? "left" : "right";
-    context.textBaseline = range.yMin < 0 ? "top" : "bottom";
-    context.fillText(quadrantSettings[quadrant].label, range.xMin < 0 ? box.left + 14 : box.right - 14, range.yMin < 0 ? box.bottom - 28 : box.top + 28);
-  }
+  context.textAlign = "right";
+  context.textBaseline = "bottom";
+  context.fillText("x", box.right - 8, xAxisY - 10);
+  context.textAlign = "left";
+  context.textBaseline = "top";
+  context.fillText("y", yAxisX + 10, box.top + 8);
 }
 
-function drawCurve(box, mapper, scale, coefficient, quadrant) {
-  const samples = 420;
-  const start = Math.max(0.08, scale * 0.04);
+function drawCurve(box, mapper, scale, exponent) {
+  const samples = 360;
+  const radius = scale * 0.72;
 
   context.save();
   context.beginPath();
@@ -169,8 +139,8 @@ function drawCurve(box, mapper, scale, coefficient, quadrant) {
   context.beginPath();
 
   for (let index = 0; index <= samples; index += 1) {
-    const distance = start + (index / samples) * (scale - start);
-    const { x, y } = functionPoint(distance, coefficient, quadrant);
+    const angle = (index / samples) * Math.PI * 2;
+    const { x, y } = squirclePoint(angle, radius, exponent);
     const px = mapper.xToPx(x);
     const py = mapper.yToPx(y);
 
@@ -181,37 +151,49 @@ function drawCurve(box, mapper, scale, coefficient, quadrant) {
     }
   }
 
+  context.closePath();
   context.stroke();
   context.restore();
 }
 
-function drawReferencePoint(mapper, coefficient, quadrant) {
-  const { x, y } = functionPoint(1, coefficient, quadrant);
-
-  context.fillStyle = graph.pointColor;
-  context.beginPath();
-  context.arc(mapper.xToPx(x), mapper.yToPx(y), 5, 0, Math.PI * 2);
-  context.fill();
-}
-
 function render() {
-  const { scale, coefficient, quadrant } = getValues();
+  const { scale, exponent } = getValues();
   const width = canvas.width / Math.min(window.devicePixelRatio || 1, 2);
   const height = canvas.height / Math.min(window.devicePixelRatio || 1, 2);
   const box = getPlotBox();
-  const mapper = createMapper(box, scale, quadrant);
+  const mapper = createMapper(box, scale);
 
   context.clearRect(0, 0, width, height);
-  drawLabels(box, mapper, scale, quadrant);
-  drawAxes(box, mapper, scale, quadrant);
-  drawCurve(box, mapper, scale, coefficient, quadrant);
-  drawReferencePoint(mapper, coefficient, quadrant);
+  drawLabels(box, mapper, scale);
+  drawAxes(box, mapper);
+  drawCurve(box, mapper, scale, exponent);
 
-  const { label, formulaSign } = quadrantSettings[quadrant];
+  const radius = scale * 0.72;
   scaleOutput.value = formatNumber(scale, 1);
-  coefficientOutput.value = formatNumber(coefficient);
-  quadrantOutput.value = label;
-  functionLabel.textContent = `${label} · y = ${formulaSign}${formatNumber(coefficient)} / x`;
+  coefficientOutput.value = formatNumber(exponent, 1);
+  functionLabel.textContent = `|x / ${formatNumber(radius, 1)}|${formatExponent(exponent)} + |y / ${formatNumber(radius, 1)}|${formatExponent(exponent)} = 1`;
+}
+
+function formatExponent(exponent) {
+  const superscriptDigits = {
+    "0": "⁰",
+    "1": "¹",
+    "2": "²",
+    "3": "³",
+    "4": "⁴",
+    "5": "⁵",
+    "6": "⁶",
+    "7": "⁷",
+    "8": "⁸",
+    "9": "⁹",
+    ".": "·"
+  };
+
+  return formatNumber(exponent, 1)
+    .replace(/\.0$/, "")
+    .split("")
+    .map((character) => superscriptDigits[character] || character)
+    .join("");
 }
 
 function updateGraph() {
@@ -221,20 +203,6 @@ function updateGraph() {
 
 scaleSlider.addEventListener("input", render);
 coefficientSlider.addEventListener("input", render);
-quadrantButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    selectedQuadrant = Number(button.dataset.quadrant);
-
-    quadrantButtons.forEach((currentButton) => {
-      const isActive = currentButton === button;
-
-      currentButton.classList.toggle("is-active", isActive);
-      currentButton.setAttribute("aria-pressed", String(isActive));
-    });
-
-    render();
-  });
-});
 window.addEventListener("resize", updateGraph);
 
 updateGraph();
