@@ -20,3 +20,6 @@
 - Chose a lightweight Canvas 2D superellipse renderer: |x/r|^n + |y/r|^n = 1.
 - Reworked the coefficient slider into a squircle exponent control and removed the quadrant controls and blue reference point.
 - Closed the sampled contour explicitly so the full graph renders without clipped or missing sections.
+- Removed the remaining axes, numbers, and scale control to make the canvas a pure squircle visualization.
+- Added editable starting exponent and duration fields, an ending exponent slider, and a play/pause control.
+- The animation now advances through a fixed 60 exponent steps per second and completes in the selected duration (four seconds by default).
