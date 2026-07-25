@@ -32,3 +32,7 @@
 - Named the existing geometric progression "Linear" because it reads as visually linear against the squircle function, with additional cubic ease-in, ease-out, and ease-in-out timing options.
 - Changed playback into a continuous boomerang loop that retraces the selected interpolation curve in reverse.
 - Added fixed two-second holds at both the starting and ending exponent while preserving pause/resume and the selected travel duration for each direction.
+- Expanded the canvas into four synchronized squircles: square, 4:3 landscape, 16:9 landscape, and 3:4 portrait.
+- Updated the terminal exponent calculation to use the largest physical radius across the full shape set.
+- During the ending hold, the sampled squircles are replaced with exact canvas rectangles so every edge and corner is fully crisp.
+- Snapped the exact endpoint rectangle bounds to the physical device-pixel grid to avoid antialiased half-pixel edges.

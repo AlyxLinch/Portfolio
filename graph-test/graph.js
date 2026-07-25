@@ -45,6 +45,7 @@ let calculatedEndExponent = 12;
 let canvasPixelRatio = 1;
 let canvasSignature = "";
 let interpolationStyle = "linear";
+let renderPerfectEndpoint = false;
 
 function formatNumber(value, places = 1) {
   return Number(value).toFixed(places);
@@ -82,6 +83,7 @@ function getLoopFrame(elapsed, duration) {
     return {
       key: "hold-start",
       exponentProgress: 0,
+      usePerfectGeometry: false,
       status: "Holding start"
     };
   }
@@ -96,6 +98,7 @@ function getLoopFrame(elapsed, duration) {
     return {
       key: `forward-${step}`,
       exponentProgress: progress,
+      usePerfectGeometry: false,
       status: `Forward ${Math.round(progress * 100)}%`
     };
   }
@@ -104,6 +107,7 @@ function getLoopFrame(elapsed, duration) {
     return {
       key: "hold-end",
       exponentProgress: 1,
+      usePerfectGeometry: true,
       status: "Holding end"
     };
   }
@@ -117,18 +121,19 @@ function getLoopFrame(elapsed, duration) {
   return {
     key: `reverse-${step}`,
     exponentProgress: 1 - progress,
+    usePerfectGeometry: false,
     status: `Reverse ${Math.round(progress * 100)}%`
   };
 }
 
-function squirclePoint(angle, radius, exponent) {
+function squirclePoint(angle, xRadius, yRadius, exponent) {
   const cosine = Math.cos(angle);
   const sine = Math.sin(angle);
   const power = 2 / exponent;
 
   return {
-    x: radius * Math.sign(cosine) * Math.pow(Math.abs(cosine), power),
-    y: radius * Math.sign(sine) * Math.pow(Math.abs(sine), power)
+    x: xRadius * Math.sign(cosine) * Math.pow(Math.abs(cosine), power),
+    y: yRadius * Math.sign(sine) * Math.pow(Math.abs(sine), power)
   };
 }
 
@@ -168,8 +173,53 @@ function getPlotBox() {
   };
 }
 
+function getShapeLayout(box) {
+  const gutter = box.width * 0.08;
+  const cellWidth = (box.width - gutter) / 2;
+  const cellHeight = (box.height - gutter) / 2;
+  const leftCenter = box.left + cellWidth / 2;
+  const rightCenter = box.right - cellWidth / 2;
+  const topCenter = box.top + cellHeight / 2;
+  const bottomCenter = box.bottom - cellHeight / 2;
+  const squareRadius = Math.min(cellWidth, cellHeight) * 0.34;
+  const landscapeRadius = cellWidth * 0.4;
+  const wideRadius = cellWidth * 0.43;
+  const portraitRadius = cellHeight * 0.4;
+
+  return [
+    {
+      centerX: leftCenter,
+      centerY: topCenter,
+      xRadius: squareRadius,
+      yRadius: squareRadius
+    },
+    {
+      centerX: rightCenter,
+      centerY: topCenter,
+      xRadius: landscapeRadius,
+      yRadius: landscapeRadius * 0.75
+    },
+    {
+      centerX: leftCenter,
+      centerY: bottomCenter,
+      xRadius: wideRadius,
+      yRadius: wideRadius * 0.5625
+    },
+    {
+      centerX: rightCenter,
+      centerY: bottomCenter,
+      xRadius: portraitRadius * 0.75,
+      yRadius: portraitRadius
+    }
+  ];
+}
+
 function calculateTerminalExponent(box) {
-  const radiusInPixels = box.width * 0.42 * canvasPixelRatio;
+  const shapes = getShapeLayout(box);
+  const largestRadius = Math.max(
+    ...shapes.flatMap((shape) => [shape.xRadius, shape.yRadius])
+  );
+  const radiusInPixels = largestRadius * canvasPixelRatio;
   const cornerPixelCenter = Math.max(0.5, radiusInPixels - 0.5);
   const diagonalRatio = cornerPixelCenter / radiusInPixels;
   const exponent = -Math.LN2 / Math.log(diagonalRatio);
@@ -177,21 +227,16 @@ function calculateTerminalExponent(box) {
   return Math.ceil(exponent * 10) / 10;
 }
 
-function drawCurve(box, exponent) {
+function drawSquircle(shape, exponent) {
   const samples = 360;
-  const radius = box.width * 0.42;
-  const centerX = box.left + box.width / 2;
-  const centerY = box.top + box.height / 2;
 
-  context.save();
-  context.fillStyle = graph.fillColor;
   context.beginPath();
 
   for (let index = 0; index <= samples; index += 1) {
     const angle = (index / samples) * Math.PI * 2;
-    const point = squirclePoint(angle, radius, exponent);
-    const px = centerX + point.x;
-    const py = centerY - point.y;
+    const point = squirclePoint(angle, shape.xRadius, shape.yRadius, exponent);
+    const px = shape.centerX + point.x;
+    const py = shape.centerY - point.y;
 
     if (index === 0) {
       context.moveTo(px, py);
@@ -202,6 +247,36 @@ function drawCurve(box, exponent) {
 
   context.closePath();
   context.fill();
+}
+
+function drawPerfectRectangle(shape) {
+  const left = Math.round((shape.centerX - shape.xRadius) * canvasPixelRatio) / canvasPixelRatio;
+  const top = Math.round((shape.centerY - shape.yRadius) * canvasPixelRatio) / canvasPixelRatio;
+  const right = Math.round((shape.centerX + shape.xRadius) * canvasPixelRatio) / canvasPixelRatio;
+  const bottom = Math.round((shape.centerY + shape.yRadius) * canvasPixelRatio) / canvasPixelRatio;
+
+  context.fillRect(
+    left,
+    top,
+    right - left,
+    bottom - top
+  );
+}
+
+function drawShapes(box, exponent, usePerfectGeometry) {
+  const shapes = getShapeLayout(box);
+
+  context.save();
+  context.fillStyle = graph.fillColor;
+
+  shapes.forEach((shape) => {
+    if (usePerfectGeometry) {
+      drawPerfectRectangle(shape);
+    } else {
+      drawSquircle(shape, exponent);
+    }
+  });
+
   context.restore();
 }
 
@@ -211,11 +286,13 @@ function render() {
   const box = getPlotBox();
 
   context.clearRect(0, 0, width, height);
-  drawCurve(box, currentExponent);
+  drawShapes(box, currentExponent, renderPerfectEndpoint);
 
   startExponentOutput.value = formatNumber(getStartExponent());
   endExponentOutput.value = formatNumber(getEndExponent());
-  functionLabel.textContent = `|x|ⁿ + |y|ⁿ = 1 · n = ${formatNumber(currentExponent)}`;
+  functionLabel.textContent = renderPerfectEndpoint
+    ? "Perfect rectangles · n → ∞"
+    : `|x/a|ⁿ + |y/b|ⁿ = 1 · n = ${formatNumber(currentExponent)}`;
 }
 
 function updateGraph() {
@@ -247,6 +324,7 @@ function resetAnimation() {
   previousTimestamp = null;
   previousFrameKey = "";
   currentExponent = getStartExponent();
+  renderPerfectEndpoint = false;
   animationStatus.value = `Ready · ${formatNumber(currentExponent)}`;
   render();
 }
@@ -269,6 +347,7 @@ function animate(timestamp) {
     const interpolatedProgress = getInterpolatedProgress(loopFrame.exponentProgress);
     const startExponent = getStartExponent();
     currentExponent = startExponent * Math.pow(getEndExponent() / startExponent, interpolatedProgress);
+    renderPerfectEndpoint = loopFrame.usePerfectGeometry;
     previousFrameKey = loopFrame.key;
     animationStatus.value = `${loopFrame.status} · ${formatNumber(currentExponent)}`;
     render();
