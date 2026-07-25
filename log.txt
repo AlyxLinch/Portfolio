@@ -41,3 +41,4 @@
 - Added varied button treatments including solid fills, translucent fill, and 1px outline/accent borders while preserving the four aspect-ratio studies.
 - Replaced stretched full-rectangle superellipses with a corner-grafting model built from four copies of one square superellipse quadrant.
 - The four undistorted corner curves are now joined by true straight edges, and terminal exponent calculations use the shared square corner radius instead of the rectangle's long side.
+- Reserved a fixed two-line height for the changing equation/title text so the button frame no longer shifts as hover states update the copy.

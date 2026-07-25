@@ -38,11 +38,20 @@ body {
 }
 
 .graph-header h1 {
+  height: 1.84em;
   max-width: 980px;
   margin: 0;
   color: var(--color-yellow);
   font-size: clamp(26px, 5.2svh, 54px);
+  line-height: 0.92;
+  overflow: hidden;
   overflow-wrap: anywhere;
+}
+
+#function-label {
+  display: block;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .graph-card {
