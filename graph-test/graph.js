@@ -12,7 +12,7 @@ const EXPONENT_MIN = 2;
 const EXPONENT_MAX = 20;
 const FRAME_RATE = 60;
 const FRAME_INTERVAL = 1000 / FRAME_RATE;
-const PATH_SAMPLES = 180;
+const CORNER_SAMPLES = 45;
 const interpolationCurves = {
   linear: (progress) => progress,
   "ease-in": (progress) => progress ** 3,
@@ -70,14 +70,14 @@ function calculateTerminalExponent(radiusInPixels) {
   return Math.ceil(exponent * 10) / 10;
 }
 
-function squirclePoint(angle, xRadius, yRadius, exponent) {
+function squirclePoint(angle, radius, exponent) {
   const cosine = Math.cos(angle);
   const sine = Math.sin(angle);
   const power = 2 / exponent;
 
   return {
-    x: xRadius * Math.sign(cosine) * Math.pow(Math.abs(cosine), power),
-    y: yRadius * Math.sign(sine) * Math.pow(Math.abs(sine), power)
+    x: radius * Math.sign(cosine) * Math.pow(Math.abs(cosine), power),
+    y: radius * Math.sign(sine) * Math.pow(Math.abs(sine), power)
   };
 }
 
@@ -88,10 +88,14 @@ function getGeometry(state) {
   return {
     pixelRatio,
     edgeInset,
-    centerX: state.width / 2,
-    centerY: state.height / 2,
-    xRadius: Math.max(1, state.width / 2 - edgeInset),
-    yRadius: Math.max(1, state.height / 2 - edgeInset)
+    left: edgeInset,
+    top: edgeInset,
+    right: state.width - edgeInset,
+    bottom: state.height - edgeInset,
+    cornerRadius: Math.max(
+      1,
+      Math.min(state.width, state.height) / 2 - edgeInset
+    )
   };
 }
 
@@ -105,23 +109,70 @@ function createRectanglePath(state) {
   return `M ${left} ${top} H ${right} V ${bottom} H ${left} Z`;
 }
 
-function createSquirclePath(state, exponent) {
-  const geometry = getGeometry(state);
-  const commands = [];
+function appendCorner(commands, centerX, centerY, radius, startAngle, endAngle, exponent) {
+  for (let index = 1; index <= CORNER_SAMPLES; index += 1) {
+    const angle = startAngle + (index / CORNER_SAMPLES) * (endAngle - startAngle);
+    const point = squirclePoint(angle, radius, exponent);
+    const x = centerX + point.x;
+    const y = centerY + point.y;
 
-  for (let index = 0; index <= PATH_SAMPLES; index += 1) {
-    const angle = (index / PATH_SAMPLES) * Math.PI * 2;
-    const point = squirclePoint(
-      angle,
-      geometry.xRadius,
-      geometry.yRadius,
-      exponent
-    );
-    const x = geometry.centerX + point.x;
-    const y = geometry.centerY - point.y;
-
-    commands.push(`${index === 0 ? "M" : "L"} ${x.toFixed(3)} ${y.toFixed(3)}`);
+    commands.push(`L ${x.toFixed(3)} ${y.toFixed(3)}`);
   }
+}
+
+function createCornerGraftedPath(state, exponent) {
+  const geometry = getGeometry(state);
+  const {
+    left,
+    top,
+    right,
+    bottom,
+    cornerRadius
+  } = geometry;
+  const commands = [
+    `M ${(left + cornerRadius).toFixed(3)} ${top.toFixed(3)}`,
+    `L ${(right - cornerRadius).toFixed(3)} ${top.toFixed(3)}`
+  ];
+
+  appendCorner(
+    commands,
+    right - cornerRadius,
+    top + cornerRadius,
+    cornerRadius,
+    -Math.PI / 2,
+    0,
+    exponent
+  );
+  commands.push(`L ${right.toFixed(3)} ${(bottom - cornerRadius).toFixed(3)}`);
+  appendCorner(
+    commands,
+    right - cornerRadius,
+    bottom - cornerRadius,
+    cornerRadius,
+    0,
+    Math.PI / 2,
+    exponent
+  );
+  commands.push(`L ${(left + cornerRadius).toFixed(3)} ${bottom.toFixed(3)}`);
+  appendCorner(
+    commands,
+    left + cornerRadius,
+    bottom - cornerRadius,
+    cornerRadius,
+    Math.PI / 2,
+    Math.PI,
+    exponent
+  );
+  commands.push(`L ${left.toFixed(3)} ${(top + cornerRadius).toFixed(3)}`);
+  appendCorner(
+    commands,
+    left + cornerRadius,
+    top + cornerRadius,
+    cornerRadius,
+    Math.PI,
+    Math.PI * 1.5,
+    exponent
+  );
 
   commands.push("Z");
   return commands.join(" ");
@@ -142,13 +193,13 @@ function drawButton(state) {
     "d",
     isPerfectRectangle
       ? createRectanglePath(state)
-      : createSquirclePath(state, exponent)
+      : createCornerGraftedPath(state, exponent)
   );
 
   if (activeButtonState === state) {
     functionLabel.textContent = isPerfectRectangle
       ? "Perfect rectangle · n → ∞"
-      : `|x/a|ⁿ + |y/b|ⁿ = 1 · n = ${formatNumber(exponent)}`;
+      : `Corner: |u/r|ⁿ + |v/r|ⁿ = 1 · n = ${formatNumber(exponent)}`;
   }
 }
 
@@ -176,8 +227,9 @@ function updateButtonGeometry(state) {
   state.width = rect.width;
   state.height = rect.height;
   state.svg.setAttribute("viewBox", `0 0 ${state.width} ${state.height}`);
+  const geometry = getGeometry(state);
   state.endExponent = calculateTerminalExponent(
-    Math.max(state.width, state.height) * 0.5 * pixelRatio
+    geometry.cornerRadius * pixelRatio
   );
 
   drawButton(state);
@@ -193,7 +245,7 @@ function resetButtons() {
   });
 
   activeButtonState = null;
-  functionLabel.textContent = `Hover-driven squircles · n = ${formatNumber(getStartExponent())}`;
+  functionLabel.textContent = `Square corner model × 4 · n = ${formatNumber(getStartExponent())}`;
   updateEndpointOutput();
 }
 
