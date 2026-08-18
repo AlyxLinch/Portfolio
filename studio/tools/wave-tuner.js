@@ -1,9 +1,9 @@
-import { createWaveRenderer } from "./shared/wave-renderer.js";
+import { createWaveRenderer } from "/shared/wave-renderer.js";
 import {
   cloneSettings,
   getSpiralCameraPose,
   settings as defaultSettings
-} from "./shared/wave-config.js";
+} from "/shared/wave-config.js";
 
 const container = document.getElementById("mesh-bg");
 const controlList = document.getElementById("control-list");

@@ -76,6 +76,17 @@ export function createWaveRenderer(container, options = {}) {
     powerPreference: options.powerPreference || "high-performance"
   });
   const grainTexture = createNoiseTexture();
+  const emptyReactiveMask = new THREE.DataTexture(
+    new Uint8Array([0, 0, 0, 0]),
+    1,
+    1,
+    THREE.RGBAFormat
+  );
+  emptyReactiveMask.needsUpdate = true;
+  let reactiveMaskTexture = emptyReactiveMask;
+  let reactiveMaskWidth = 1;
+  let reactiveMaskHeight = 1;
+  const reactiveRects = Array.from({ length: 16 }, () => new THREE.Vector4());
   const postScene = new THREE.Scene();
   const postCamera = new THREE.Camera();
   const renderTarget = new THREE.WebGLRenderTarget(1, 1, {
@@ -110,7 +121,14 @@ export function createWaveRenderer(container, options = {}) {
       uHalationRadius: { value: settings.halationRadius ?? 4 },
       uMotionEnabled: { value: Boolean(settings.motionAberrationEnabled) },
       uMotionAmount: { value: settings.motionAberrationAmount ?? 1.4 },
-      uCameraMotion: { value: new THREE.Vector2() }
+      uCameraMotion: { value: new THREE.Vector2() },
+      uReactiveEnabled: { value: false },
+      uReactiveMask: { value: reactiveMaskTexture },
+      uReactiveMaskScale: { value: new THREE.Vector2(1, 1) },
+      uReactiveMaskOffset: { value: new THREE.Vector2() },
+      uReactiveMaskBounds: { value: new THREE.Vector4() },
+      uReactiveRectCount: { value: 0 },
+      uReactiveRects: { value: reactiveRects }
     },
     vertexShader: `
       varying vec2 vUv;
@@ -143,6 +161,13 @@ export function createWaveRenderer(container, options = {}) {
       uniform bool uMotionEnabled;
       uniform float uMotionAmount;
       uniform vec2 uCameraMotion;
+      uniform bool uReactiveEnabled;
+      uniform sampler2D uReactiveMask;
+      uniform vec2 uReactiveMaskScale;
+      uniform vec2 uReactiveMaskOffset;
+      uniform vec4 uReactiveMaskBounds;
+      uniform int uReactiveRectCount;
+      uniform vec4 uReactiveRects[16];
 
       varying vec2 vUv;
 
@@ -155,6 +180,138 @@ export function createWaveRenderer(container, options = {}) {
 
       float luminance(vec3 color) {
         return dot(color, vec3(0.2126, 0.7152, 0.0722));
+      }
+
+      vec3 linearToSrgb(vec3 color) {
+        vec3 lower = color * 12.92;
+        vec3 upper = 1.055 * pow(max(color, vec3(0.0)), vec3(1.0 / 2.4)) - 0.055;
+
+        return mix(lower, upper, step(vec3(0.0031308), color));
+      }
+
+      vec3 srgbToLinear(vec3 color) {
+        vec3 lower = color / 12.92;
+        vec3 upper = pow((max(color, vec3(0.0)) + 0.055) / 1.055, vec3(2.4));
+
+        return mix(lower, upper, step(vec3(0.04045), color));
+      }
+
+      vec3 closestTriangleWeights(vec3 point, vec3 a, vec3 b, vec3 c) {
+        vec3 ab = b - a;
+        vec3 ac = c - a;
+        vec3 ap = point - a;
+        float d1 = dot(ab, ap);
+        float d2 = dot(ac, ap);
+
+        if (d1 <= 0.0 && d2 <= 0.0) {
+          return vec3(1.0, 0.0, 0.0);
+        }
+
+        vec3 bp = point - b;
+        float d3 = dot(ab, bp);
+        float d4 = dot(ac, bp);
+
+        if (d3 >= 0.0 && d4 <= d3) {
+          return vec3(0.0, 1.0, 0.0);
+        }
+
+        float vc = d1 * d4 - d3 * d2;
+
+        if (vc <= 0.0 && d1 >= 0.0 && d3 <= 0.0) {
+          float edgeWeight = d1 / max(d1 - d3, 0.000001);
+          return vec3(1.0 - edgeWeight, edgeWeight, 0.0);
+        }
+
+        vec3 cp = point - c;
+        float d5 = dot(ab, cp);
+        float d6 = dot(ac, cp);
+
+        if (d6 >= 0.0 && d5 <= d6) {
+          return vec3(0.0, 0.0, 1.0);
+        }
+
+        float vb = d5 * d2 - d1 * d6;
+
+        if (vb <= 0.0 && d2 >= 0.0 && d6 <= 0.0) {
+          float edgeWeight = d2 / max(d2 - d6, 0.000001);
+          return vec3(1.0 - edgeWeight, 0.0, edgeWeight);
+        }
+
+        float va = d3 * d6 - d5 * d4;
+
+        if (va <= 0.0 && d4 - d3 >= 0.0 && d5 - d6 >= 0.0) {
+          float edgeWeight = (d4 - d3) / max((d4 - d3) + (d5 - d6), 0.000001);
+          return vec3(0.0, 1.0 - edgeWeight, edgeWeight);
+        }
+
+        float denominator = 1.0 / max(va + vb + vc, 0.000001);
+        float bWeight = vb * denominator;
+        float cWeight = vc * denominator;
+
+        return vec3(1.0 - bWeight - cWeight, bWeight, cWeight);
+      }
+
+      vec3 trianglePoint(vec3 weights, vec3 a, vec3 b, vec3 c) {
+        return a * weights.x + b * weights.y + c * weights.z;
+      }
+
+      vec3 accentFromWeights(vec3 weights) {
+        const vec3 accentCyan = vec3(0.0, 0.886275, 0.8);
+        const vec3 accentPink = vec3(1.0, 0.113725, 0.572549);
+        const vec3 accentOrange = vec3(1.0, 0.349020, 0.152941);
+
+        return
+          accentCyan * weights.x +
+          accentPink * weights.y +
+          accentOrange * weights.z;
+      }
+
+      vec3 mapReactiveColor(vec3 backdrop) {
+        const vec3 designForest = vec3(0.145098, 0.266667, 0.254902);
+        const vec3 designPlum = vec3(0.364706, 0.054902, 0.254902);
+        const vec3 designYellow = vec3(1.0, 0.698039, 0.211765);
+        const vec3 waveForest = vec3(0.043137, 0.501961, 0.407843);
+        const vec3 wavePlum = vec3(0.588235, 0.043137, 0.396078);
+        const vec3 waveYellow = vec3(1.0, 0.650980, 0.090196);
+        vec3 designWeights = closestTriangleWeights(
+          backdrop,
+          designForest,
+          designPlum,
+          designYellow
+        );
+        vec3 waveWeights = closestTriangleWeights(
+          backdrop,
+          waveForest,
+          wavePlum,
+          waveYellow
+        );
+        float designDistance = distance(
+          backdrop,
+          trianglePoint(designWeights, designForest, designPlum, designYellow)
+        );
+        float waveDistance = distance(
+          backdrop,
+          trianglePoint(waveWeights, waveForest, wavePlum, waveYellow)
+        );
+        float paletteMix = smoothstep(-0.045, 0.045, designDistance - waveDistance);
+        vec3 paletteWeights = mix(designWeights, waveWeights, paletteMix);
+        float paletteDistance = min(designDistance, waveDistance);
+        float paletteAffinity = 1.0 - smoothstep(0.08, 0.36, paletteDistance);
+        vec3 accentColor = accentFromWeights(paletteWeights);
+        vec3 regularInverse = vec3(1.0) - backdrop;
+
+        return mix(regularInverse, accentColor, paletteAffinity);
+      }
+
+      float rectangleMask(vec2 uv, vec4 rectangle) {
+        vec2 minimum = rectangle.xy;
+        vec2 maximum = rectangle.xy + rectangle.zw;
+
+        return
+          step(minimum.x, uv.x) *
+          step(minimum.y, uv.y) *
+          step(uv.x, maximum.x) *
+          step(uv.y, maximum.y);
       }
 
       void main() {
@@ -262,6 +419,45 @@ export function createWaveRenderer(container, options = {}) {
         float effectLuminance = luminance(filtered);
         filtered += vec3(max(sourceLuminance - effectLuminance, 0.0));
         filtered = clamp(filtered, 0.0, 1.0);
+
+        if (uReactiveEnabled) {
+          float reactiveMask = 0.0;
+          float flowBoundsMask = rectangleMask(vUv, uReactiveMaskBounds);
+
+          if (flowBoundsMask > 0.0) {
+            vec2 maskUv = vUv * uReactiveMaskScale + uReactiveMaskOffset;
+            float textureBounds =
+              step(0.0, maskUv.x) *
+              step(0.0, maskUv.y) *
+              step(maskUv.x, 1.0) *
+              step(maskUv.y, 1.0);
+            reactiveMask = texture2D(
+              uReactiveMask,
+              clamp(maskUv, 0.0, 1.0)
+            ).a * textureBounds;
+          }
+
+          for (int rectIndex = 0; rectIndex < 16; rectIndex++) {
+            if (rectIndex >= uReactiveRectCount) {
+              break;
+            }
+
+            reactiveMask = max(
+              reactiveMask,
+              rectangleMask(vUv, uReactiveRects[rectIndex])
+            );
+          }
+
+          if (reactiveMask > 0.001) {
+            vec3 displayColor = linearToSrgb(filtered);
+            vec3 mappedColor = mapReactiveColor(clamp(displayColor, 0.0, 1.0));
+            filtered = mix(
+              filtered,
+              srgbToLinear(mappedColor),
+              clamp(reactiveMask, 0.0, 1.0)
+            );
+          }
+        }
 
         gl_FragColor = vec4(filtered, center.a);
         #include <tonemapping_fragment>
@@ -758,12 +954,77 @@ export function createWaveRenderer(container, options = {}) {
 
   function usesPostProcessing() {
     return (
+      postMaterial.uniforms.uReactiveEnabled.value ||
       settings.grainType === "cameraAirbrush" ||
       settings.chromaticAberrationEnabled ||
       settings.diffusionEnabled ||
       settings.halationEnabled ||
       settings.motionAberrationEnabled
     );
+  }
+
+  function setReactiveColorState({
+    enabled = false,
+    maskCanvas,
+    maskDirty = false,
+    maskScale = [1, 1],
+    maskOffset = [0, 0],
+    maskBounds = [0, 0, 0, 0],
+    pinnedRects = []
+  } = {}) {
+    if (
+      maskCanvas &&
+      (
+        reactiveMaskTexture.image !== maskCanvas ||
+        reactiveMaskWidth !== maskCanvas.width ||
+        reactiveMaskHeight !== maskCanvas.height
+      )
+    ) {
+      reactiveMaskTexture.dispose();
+      reactiveMaskTexture = new THREE.CanvasTexture(maskCanvas);
+      reactiveMaskTexture.magFilter = THREE.LinearFilter;
+      reactiveMaskTexture.minFilter = THREE.LinearFilter;
+      reactiveMaskTexture.generateMipmaps = false;
+      postMaterial.uniforms.uReactiveMask.value = reactiveMaskTexture;
+      reactiveMaskWidth = maskCanvas.width;
+      reactiveMaskHeight = maskCanvas.height;
+    } else if (maskCanvas && maskDirty) {
+      reactiveMaskTexture.needsUpdate = true;
+    }
+
+    postMaterial.uniforms.uReactiveEnabled.value = Boolean(enabled);
+    postMaterial.uniforms.uReactiveMaskScale.value.set(
+      Number(maskScale[0]) || 1,
+      Number(maskScale[1]) || 1
+    );
+    postMaterial.uniforms.uReactiveMaskOffset.value.set(
+      Number(maskOffset[0]) || 0,
+      Number(maskOffset[1]) || 0
+    );
+    postMaterial.uniforms.uReactiveMaskBounds.value.set(
+      Number(maskBounds[0]) || 0,
+      Number(maskBounds[1]) || 0,
+      Number(maskBounds[2]) || 0,
+      Number(maskBounds[3]) || 0
+    );
+
+    const rectCount = Math.min(pinnedRects.length, reactiveRects.length);
+    postMaterial.uniforms.uReactiveRectCount.value = rectCount;
+
+    for (let index = 0; index < reactiveRects.length; index++) {
+      const rectangle = pinnedRects[index];
+
+      if (index < rectCount && rectangle) {
+        reactiveRects[index].set(
+          rectangle[0],
+          rectangle[1],
+          rectangle[2],
+          rectangle[3]
+        );
+      } else {
+        reactiveRects[index].set(0, 0, 0, 0);
+      }
+    }
   }
 
   function renderAtPhase(phase) {
@@ -888,6 +1149,7 @@ export function createWaveRenderer(container, options = {}) {
     postMaterial.dispose();
     renderTarget.dispose();
     grainTexture.dispose();
+    reactiveMaskTexture.dispose();
     renderer.dispose();
     renderer.domElement.remove();
   }
@@ -909,6 +1171,7 @@ export function createWaveRenderer(container, options = {}) {
     dispose,
     renderAtPhase,
     renderLoopProgress,
+    setReactiveColorState,
     setCameraView,
     setCameraPose,
     setMeshSegments,

@@ -1,1 +1,14 @@
-/  /webpage/  302
+/webpage/assets/*  /assets/:splat  301
+/webpage/page.css  /styles/site.css  301
+/webpage/page.js  /js/site.js  301
+/webpage/  /profile/  301
+/work/  /  301
+/projects/portfolio-background/*  /projects/personal/portfolio-background/:splat  301
+/projects/vacasa-graphics/*  /projects/graphic-design/vacasa/:splat  301
+/projects/vacasa-database/*  /projects/software-solutions/vacasa-database/:splat  301
+/projects/asse-aspire/*  /studio/archive/asse-aspire/:splat  301
+/scroll-demo/*  /studio/tools/scroll-demo/:splat  301
+/styleguide/*  /studio/tools/styleguide/:splat  301
+/graph-test/*  /studio/tools/squircle-lab/:splat  301
+/style.css  /studio/tools/wave-tuner.css  301
+/main.js  /studio/tools/wave-tuner.js  301

@@ -1,26 +1,112 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>HTML Test File</title>
-    <link rel="stylesheet" href="/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Alyx Linch is a product designer and creative developer building expressive products, websites, systems, and brand experiences.">
+    <title>Portfolio — Alyx Linch</title>
+    <link rel="stylesheet" href="/styles/site.css">
   </head>
-  <body>
-    <div id="mesh-bg"></div>
-    <div id="frame-guides" aria-hidden="true">
-      <div class="frame-guide frame-guide--desktop"><span>Desktop 16:9</span></div>
-      <div class="frame-guide frame-guide--tablet"><span>Tablet 4:3</span></div>
-      <div class="frame-guide frame-guide--mobile"><span>Mobile 9:16</span></div>
-    </div>
-    <section id="control-card" aria-label="Wave controls">
-      <div class="control-card__header">
-        <h1>Wave Tuner</h1>
-        <button id="save-defaults" type="button">Copy settings</button>
-      </div>
-      <div id="control-list" class="control-list"></div>
-      <p id="save-status" class="save-status" aria-live="polite"></p>
-    </section>
+  <body data-page="portfolio">
+    <div id="background-stage" aria-hidden="true"><div id="live-bg"></div></div>
+    <header class="portfolio-nav site-header">
+      <a class="brand-logo" href="/" aria-label="Alyx Linch home">
+        <span class="brand-logo__layer brand-logo__accent" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
+        <span class="brand-logo__layer brand-logo__base" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
+        <span class="visually-hidden">Alyx Linch</span>
+      </a>
+      <nav class="portfolio-nav__links" aria-label="Portfolio navigation">
+        <a href="/" aria-current="page">Portfolio</a>
+        <a href="/profile/">Profile</a>
+        <a href="/connect/">Connect</a>
+        <a href="/resume/">Résumé</a>
+      </nav>
+    </header>
+    <main id="top" class="page-shell">
+      <section class="profile-hero">
+        <div class="profile-hero__copy">
+          <p class="eyebrow">Product design · creative development · systems thinking</p>
+          <h1 class="reactive-color">Designing useful things with a little voltage.</h1>
+          <p class="hero__lede">I’m Alyx Linch, a self-taught product designer and creative developer. Here is a selection of products, websites, visual systems, and practical software I have designed and built.</p>
+        </div>
+        <div class="glass-pane hero-card">
+          <p class="eyebrow">Welcome</p>
+          <p>I like projects where interface, identity, and real-world workflow meet. Explore the work below, or read more about the path behind it.</p>
+          <a class="brand-button brand-button--cyan" href="/profile/">Meet Alyx</a>
+        </div>
+      </section>
+      <section class="profile-grid">
+        <aside class="project-outline" aria-label="Project outline">
+          <p class="eyebrow">Product design</p>
+          <a href="#vibechat" class="is-active">VibeChat for Spotify</a>
+          <a href="#vela">Vela Weather App</a>
+          <p class="eyebrow">Websites</p>
+          <a href="#celtic-cabinets-site">Celtic Cabinets</a>
+          <a href="#celtic-nations-site">Celtic Nations</a>
+          <p class="eyebrow">Personal projects</p>
+          <a href="#squircle-kit">Animated Squircle Kit</a>
+          <a href="#portfolio-background">Portfolio Background</a>
+          <p class="eyebrow">Graphic design</p>
+          <a href="#vacasa-graphics">Vacasa</a>
+          <a href="#celtic-cabinets-marketing">Celtic Cabinets</a>
+          <a href="#celtic-nations-marketing">Celtic Nations</a>
+          <p class="eyebrow">Software solutions</p>
+          <a href="#vacasa-database">Vacasa Database App</a>
+          <a href="#celtic-nations-system">Celtic Nations System</a>
+        </aside>
+        <div class="project-preview-stack">
+          <article id="vibechat" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">CareerFoundry · product design · case study</p><h2>VibeChat for Spotify</h2><p>A social listening concept exploring how music taste, chat, and lightweight discovery could live inside Spotify.</p><a class="ds-button ds-button--plum" href="#vibechat">Case study page planned</a></div>
+            <div class="mockup-cluster"><div class="mockup mockup--phone"><span>App flow</span></div><div class="mockup mockup--phone mockup--alt"><span>Chat screen</span></div></div>
+          </article>
+          <article id="vela" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">CareerFoundry · product design · unfinished case study</p><h2>Vela Weather App</h2><p>A weather app study focused on glanceable forecasts, visual hierarchy, and lightweight planning.</p><a class="ds-button ds-button--outline" href="#vela">Case study page planned</a></div>
+            <div class="mockup mockup--phone"><span>Weather app</span></div>
+          </article>
+          <article id="celtic-cabinets-site" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Website</p><h2>Celtic Cabinets Website</h2><p>A clear, practical website designed around the needs of a local cabinetry business and its customers.</p><a class="ds-button ds-button--forest" href="#celtic-cabinets-site">Project page planned</a></div>
+            <div class="mockup mockup--desktop"><span>Website mockup</span></div>
+          </article>
+          <article id="celtic-nations-site" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Website · case study</p><h2>Celtic Nations Website</h2><p>A public-facing website that turns a broader local business ecosystem into an approachable digital experience.</p><a class="ds-button ds-button--yellow" href="#celtic-nations-site">Case study page planned</a></div>
+            <div class="mockup mockup--desktop"><span>Responsive website</span></div>
+          </article>
+          <article id="squircle-kit" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Personal project · creative development</p><h2>Animated Squircle Kit</h2><p>An interactive shape and motion study for expressive interface controls with configurable geometry and timing.</p><a class="ds-button ds-button--plum" href="#squircle-kit">Project page planned</a></div>
+            <div class="mockup mockup--app"><span>Shape system</span></div>
+          </article>
+          <article id="portfolio-background" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Personal project · case study</p><h2>Portfolio Background</h2><p>A mathematical waveform experiment evolved into the scroll-directed 3D environment moving behind this site.</p><a class="ds-button ds-button--yellow" href="/projects/personal/portfolio-background/">See the case study</a></div>
+            <div class="mockup mockup--wave"><span>Live background study</span></div>
+          </article>
+          <article id="vacasa-graphics" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Graphic design</p><h2>Vacasa Graphic Design</h2><p>Flyers, signage, welcome materials, and fridge magnets created for consistent communication across eight offices.</p><a class="ds-button ds-button--forest" href="/projects/graphic-design/vacasa/">See the project</a></div>
+            <div class="mockup-collage"><div class="mockup mockup--print"><span>Flyer</span></div><div class="mockup mockup--print"><span>Signage</span></div><div class="mockup mockup--print"><span>Welcome card</span></div></div>
+          </article>
+          <article id="celtic-cabinets-marketing" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Graphic design</p><h2>Celtic Cabinets Marketing Materials</h2><p>Print and digital materials that give a local business a consistent, recognizable presence.</p><a class="ds-button ds-button--outline" href="#celtic-cabinets-marketing">Project page planned</a></div>
+            <div class="mockup mockup--print"><span>Marketing system</span></div>
+          </article>
+          <article id="celtic-nations-marketing" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Graphic design</p><h2>Celtic Nations Marketing Materials</h2><p>A flexible family of promotional materials shaped for the Celtic Nations brand and its audiences.</p><a class="ds-button ds-button--outline" href="#celtic-nations-marketing">Project page planned</a></div>
+            <div class="mockup mockup--print"><span>Campaign materials</span></div>
+          </article>
+          <article id="vacasa-database" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Software solution · case study</p><h2>Vacasa Database App</h2><p>A secure Google Apps Script database and label automation system built to support 2,000+ homes.</p><a class="ds-button ds-button--forest" href="/projects/software-solutions/vacasa-database/">See the case study</a></div>
+            <div class="mockup mockup--app"><span>Database interface</span></div>
+          </article>
+          <article id="celtic-nations-system" class="project-preview ds-paper" data-project-section>
+            <div class="project-preview__copy"><p class="eyebrow">Software solution</p><h2>Celtic Nations System</h2><p>An operational system for organizing local workflows, assets, and business information in one practical interface.</p><a class="ds-button ds-button--outline" href="#celtic-nations-system">Project page planned</a></div>
+            <div class="mockup mockup--app"><span>Operations system</span></div>
+          </article>
+        </div>
+      </section>
+      <section class="closing">
+        <div class="glass-pane closing__pane"><p class="eyebrow">Have a project in mind?</p><h2>Let’s make the complicated feel clear.</h2><p>Tell me about the role, project, or workflow you want to improve.</p></div>
+        <a class="brand-button brand-button--orange" href="/connect/">Connect with me</a>
+      </section>
+    </main>
+    <aside id="bg-status" aria-live="polite"></aside>
+    <script type="module" src="/js/site.js"></script>
   </body>
-
-<script type="module" src="/main.js"></script>
-
 </html>

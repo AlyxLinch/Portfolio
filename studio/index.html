@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Alyx's Studio</title>
+    <link rel="stylesheet" href="/shared/design-system.css">
+    <style>
+      body { min-height: 100vh; margin: 0; background: var(--color-cream); color: var(--color-brown); }
+      main { width: min(1120px, calc(100% - 40px)); margin: 0 auto; padding: 72px 0; }
+      header { max-width: 760px; margin-bottom: 48px; }
+      h1 { margin: 8px 0 16px; }
+      .studio-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+      .studio-card { display: flex; min-height: 180px; flex-direction: column; padding: 24px; color: inherit; text-decoration: none; }
+      .studio-card h2 { margin: 8px 0; font-size: 24px; }
+      .studio-card p { margin: 0; }
+      .studio-card span:last-child { margin-top: auto; padding-top: 24px; font-family: var(--font-display); font-weight: 700; }
+      .studio-section { margin-top: 48px; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <p class="ds-label">Private by convention · accessible by direct URL</p>
+        <h1 class="ds-display ds-display--title">Studio</h1>
+        <p>Development tools, experiments, and retired drafts live here so they stay available without appearing in the public portfolio navigation.</p>
+        <p><a href="/">← Return to public portfolio</a></p>
+      </header>
+      <section aria-labelledby="tools-title">
+        <h2 id="tools-title">Tools and experiments</h2>
+        <div class="studio-grid">
+          <a class="studio-card ds-paper" href="/studio/tools/wave-tuner.html"><span class="ds-label">WebGL tool</span><h2>Wave Tuner</h2><p>Live controls for the portfolio background renderer.</p><span>Open tool →</span></a>
+          <a class="studio-card ds-paper" href="/studio/tools/scroll-demo/"><span class="ds-label">Motion test</span><h2>Scroll Demo</h2><p>Clean test surface for the scroll-directed camera path.</p><span>Open demo →</span></a>
+          <a class="studio-card ds-paper" href="/studio/tools/squircle-lab/"><span class="ds-label">Shape experiment</span><h2>Squircle Lab</h2><p>Interactive geometry and animation controls.</p><span>Open lab →</span></a>
+          <a class="studio-card ds-paper" href="/studio/tools/styleguide/"><span class="ds-label">Design system</span><h2>Style Guide</h2><p>Typography, color, components, and visual tokens.</p><span>Open guide →</span></a>
+        </div>
+      </section>
+      <section class="studio-section" aria-labelledby="archive-title">
+        <h2 id="archive-title">Archive</h2>
+        <div class="studio-grid">
+          <a class="studio-card ds-paper" href="/studio/archive/asse-aspire/"><span class="ds-label">Retired case study</span><h2>ASSE Aspire</h2><p>Preserved project page not included in the final sitemap.</p><span>View archive →</span></a>
+          <a class="studio-card ds-paper" href="/studio/archive/work-index/"><span class="ds-label">Retired page</span><h2>Work Index</h2><p>The former separate project-index concept.</p><span>View archive →</span></a>
+          <a class="studio-card ds-paper" href="/studio/archive/landing-draft/"><span class="ds-label">Retired page</span><h2>Landing Draft</h2><p>The earlier profile-and-project landing page.</p><span>View archive →</span></a>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

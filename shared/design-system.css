@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Syne";
-  src: url("/webpage/assets/syne-variable.ttf") format("truetype");
+  src: url("/assets/syne-variable.ttf") format("truetype");
   font-style: normal;
   font-weight: 400 800;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("/webpage/assets/lora-regular.ttf") format("truetype");
+  src: url("/assets/lora-regular.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("/webpage/assets/lora-medium.ttf") format("truetype");
+  src: url("/assets/lora-medium.ttf") format("truetype");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -24,7 +24,7 @@
 
 @font-face {
   font-family: "Lora";
-  src: url("/webpage/assets/lora-semibold.ttf") format("truetype");
+  src: url("/assets/lora-semibold.ttf") format("truetype");
   font-style: normal;
   font-weight: 600;
   font-display: swap;
@@ -462,7 +462,8 @@ a {
 .ds-button:focus-visible,
 .ds-link:focus-visible,
 .ds-input:focus-visible,
-.ds-select:focus-visible {
+.ds-select:focus-visible,
+.ds-dropdown__trigger:focus-visible {
   outline: 3px solid var(--color-cyan);
   outline-offset: 3px;
 }
@@ -519,6 +520,10 @@ a {
   position: relative;
 }
 
+.ds-dropdown.is-open {
+  z-index: 5;
+}
+
 .ds-dropdown__trigger {
   display: flex;
   align-items: center;
@@ -526,6 +531,12 @@ a {
   gap: 16px;
   text-align: left;
   cursor: pointer;
+}
+
+.ds-dropdown__trigger > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .ds-dropdown__trigger::after {

@@ -6,10 +6,29 @@ import {
 } from "/shared/wave-config.js";
 import { initBrandLogos } from "/shared/brand-logo.js";
 import { createWaveRenderer } from "/shared/wave-renderer.js";
+import { createReactiveColorSystem } from "/js/reactive-color.js";
 
 const liveContainer = document.getElementById("live-bg");
 const status = document.getElementById("bg-status");
 const settings = cloneSettings(defaultSettings);
+
+for (const eyebrow of document.querySelectorAll(".eyebrow")) {
+  eyebrow.dataset.eyebrowText = eyebrow.textContent.trim();
+}
+
+for (const link of document.querySelectorAll('.portfolio-nav__links a[aria-current="page"]')) {
+  const marker = document.createElement("span");
+  marker.className = "nav-reactive-marker reactive-color reactive-color--shape reactive-color--pinned";
+  marker.setAttribute("aria-hidden", "true");
+  link.append(marker);
+}
+
+for (const link of document.querySelectorAll(".project-outline a")) {
+  const marker = document.createElement("span");
+  marker.className = "outline-reactive-marker reactive-color reactive-color--shape reactive-color--pinned";
+  marker.setAttribute("aria-hidden", "true");
+  link.append(marker);
+}
 
 initBrandLogos();
 
@@ -22,6 +41,9 @@ const wave = createWaveRenderer(liveContainer, {
   width: window.innerWidth,
   height: window.innerHeight,
   powerPreference: "high-performance"
+});
+const reactiveColors = createReactiveColorSystem({
+  wave
 });
 
 let animationFrame = null;
@@ -36,6 +58,8 @@ let currentMeshSegments = settings.meshSegments;
 let qualityMessage = "Live renderer active.";
 let smoothedScrollProgress = null;
 let versionFrameResizeTimer = null;
+let wheelScrollTarget = window.scrollY;
+let wheelScrollPending = false;
 const scrollEaseMs = 115;
 const qualityStepMs = 2200;
 
@@ -171,6 +195,123 @@ function initializeProjectOutline() {
   sections.forEach((section) => observer.observe(section));
 }
 
+function closeDropdown(dropdown, { restoreFocus = false } = {}) {
+  const trigger = dropdown.querySelector(".ds-dropdown__trigger");
+
+  dropdown.classList.remove("is-open");
+  trigger?.setAttribute("aria-expanded", "false");
+
+  if (restoreFocus) {
+    trigger?.focus();
+  }
+}
+
+function initializeDropdowns() {
+  const dropdowns = [...document.querySelectorAll("[data-dropdown]")];
+
+  if (!dropdowns.length) {
+    return;
+  }
+
+  const closeOtherDropdowns = (currentDropdown) => {
+    dropdowns.forEach((dropdown) => {
+      if (dropdown !== currentDropdown) {
+        closeDropdown(dropdown);
+      }
+    });
+  };
+
+  dropdowns.forEach((dropdown) => {
+    const trigger = dropdown.querySelector(".ds-dropdown__trigger");
+    const value = dropdown.querySelector("[data-dropdown-value]");
+    const input = dropdown.querySelector("[data-dropdown-input]");
+    const options = [...dropdown.querySelectorAll(".ds-dropdown__option")];
+
+    if (!trigger || !value || !input || !options.length) {
+      return;
+    }
+
+    const openDropdown = (focusIndex = null) => {
+      closeOtherDropdowns(dropdown);
+      dropdown.classList.add("is-open");
+      trigger.setAttribute("aria-expanded", "true");
+
+      if (focusIndex !== null) {
+        options[focusIndex]?.focus();
+      }
+    };
+
+    const selectOption = (option) => {
+      options.forEach((entry) => {
+        entry.setAttribute("aria-selected", String(entry === option));
+      });
+      value.textContent = option.textContent.trim();
+      input.value = option.dataset.value || option.textContent.trim();
+      input.dispatchEvent(new Event("change", { bubbles: true }));
+      closeDropdown(dropdown, { restoreFocus: true });
+    };
+
+    trigger.addEventListener("click", () => {
+      if (dropdown.classList.contains("is-open")) {
+        closeDropdown(dropdown);
+        return;
+      }
+
+      const selectedIndex = Math.max(
+        0,
+        options.findIndex((option) => option.getAttribute("aria-selected") === "true")
+      );
+      openDropdown(selectedIndex);
+    });
+
+    trigger.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+        event.preventDefault();
+        const selectedIndex = options.findIndex(
+          (option) => option.getAttribute("aria-selected") === "true"
+        );
+        openDropdown(
+          event.key === "ArrowDown"
+            ? Math.max(selectedIndex, 0)
+            : selectedIndex >= 0
+              ? selectedIndex
+              : options.length - 1
+        );
+      } else if (event.key === "Escape") {
+        closeDropdown(dropdown);
+      }
+    });
+
+    options.forEach((option, optionIndex) => {
+      option.tabIndex = -1;
+      option.addEventListener("click", () => selectOption(option));
+      option.addEventListener("keydown", (event) => {
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          event.preventDefault();
+          const direction = event.key === "ArrowDown" ? 1 : -1;
+          options[(optionIndex + direction + options.length) % options.length].focus();
+        } else if (event.key === "Home" || event.key === "End") {
+          event.preventDefault();
+          options[event.key === "Home" ? 0 : options.length - 1].focus();
+        } else if (event.key === "Escape") {
+          event.preventDefault();
+          closeDropdown(dropdown, { restoreFocus: true });
+        } else if (event.key === "Tab") {
+          closeDropdown(dropdown);
+        }
+      });
+    });
+  });
+
+  document.addEventListener("click", (event) => {
+    dropdowns.forEach((dropdown) => {
+      if (!dropdown.contains(event.target)) {
+        closeDropdown(dropdown);
+      }
+    });
+  });
+}
+
 function setStatus(message) {
   if (status) {
     status.textContent = message;
@@ -181,6 +322,53 @@ function getScrollProgress() {
   const scrollable = Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
 
   return Math.max(0, Math.min(1, window.scrollY / scrollable));
+}
+
+function normalizeWheelDelta(event) {
+  if (event.deltaMode === 1) {
+    return event.deltaY * 18;
+  }
+
+  if (event.deltaMode === 2) {
+    return event.deltaY * window.innerHeight;
+  }
+
+  return event.deltaY;
+}
+
+function queueSynchronizedWheelScroll(event) {
+  if (event.ctrlKey || !event.deltaY) {
+    return;
+  }
+
+  event.preventDefault();
+
+  if (Math.abs(window.scrollY - wheelScrollTarget) > 2) {
+    wheelScrollTarget = window.scrollY;
+  }
+
+  const maximumScroll = Math.max(
+    document.documentElement.scrollHeight - window.innerHeight,
+    0
+  );
+  wheelScrollTarget = Math.max(
+    0,
+    Math.min(maximumScroll, wheelScrollTarget + normalizeWheelDelta(event))
+  );
+  wheelScrollPending = true;
+}
+
+function applySynchronizedWheelScroll() {
+  if (!wheelScrollPending) {
+    return;
+  }
+
+  window.scrollTo({
+    behavior: "instant",
+    left: window.scrollX,
+    top: wheelScrollTarget
+  });
+  wheelScrollPending = false;
 }
 
 function updateSmoothedScrollProgress(frameMs) {
@@ -304,6 +492,7 @@ function animate(now) {
   frameCounter += 1;
   averageFrameMs = averageFrameMs * 0.94 + frameMs * 0.06;
 
+  applySynchronizedWheelScroll();
   updateSmoothedScrollProgress(frameMs);
   if (frameCounter > 90) {
     updateQualityIfNeeded(now);
@@ -312,6 +501,7 @@ function animate(now) {
   applyScrollCamera();
 
   const renderStarted = performance.now();
+  reactiveColors.update();
   wave.renderAtPhase(settings.phase + now * settings.animationSpeed);
   averageRenderMs = averageRenderMs * 0.92 + (performance.now() - renderStarted) * 0.08;
 
@@ -321,6 +511,7 @@ function animate(now) {
 }
 
 window.addEventListener("resize", resizeLiveRenderer);
+window.addEventListener("wheel", queueSynchronizedWheelScroll, { passive: false });
 window.addEventListener("resize", () => {
   window.clearTimeout(versionFrameResizeTimer);
   versionFrameResizeTimer = window.setTimeout(renderVersionFrames, 160);
@@ -331,6 +522,8 @@ window.addEventListener("beforeunload", () => {
   }
 
   wave.dispose();
+  reactiveColors.dispose();
+  window.removeEventListener("wheel", queueSynchronizedWheelScroll);
 });
 
 setStatus("Starting live renderer...");
@@ -340,4 +533,5 @@ if (!window.location.hash) {
 resizeLiveRenderer();
 renderVersionFrames();
 initializeProjectOutline();
+initializeDropdowns();
 animationFrame = requestAnimationFrame(animate);

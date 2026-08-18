@@ -1,7 +1,7 @@
 .DS_Store
 
 # Generated capture output
-webpage/assets/scroll-demo-frames/
+assets/scroll-demo-frames/
 
 # Dependencies and environment files
 node_modules/

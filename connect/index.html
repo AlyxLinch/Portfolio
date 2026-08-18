@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Connect with Alyx Linch for product design roles, creative development, freelance work, and collaboration.">
     <title>Connect — Alyx Linch</title>
-    <link rel="stylesheet" href="/webpage/page.css">
+    <link rel="stylesheet" href="/styles/site.css">
   </head>
   <body data-page="connect">
     <div id="background-stage" aria-hidden="true"><div id="live-bg"></div></div>
     <header class="portfolio-nav site-header">
-      <a class="brand-logo" href="/webpage/" aria-label="Alyx Linch home">
+      <a class="brand-logo" href="/" aria-label="Alyx Linch home">
         <span class="brand-logo__layer brand-logo__accent" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
         <span class="brand-logo__layer brand-logo__base" aria-hidden="true"><span>A</span><span class="brand-logo__l">L</span><span>YX</span></span>
         <span class="visually-hidden">Alyx Linch</span>
       </a>
       <nav class="portfolio-nav__links" aria-label="Portfolio navigation">
-        <a href="/webpage/">Profile</a>
-        <a href="/work/">My Work</a>
-        <a href="/resume/">Résumé</a>
+        <a href="/">Portfolio</a>
+        <a href="/profile/">Profile</a>
         <a href="/connect/" aria-current="page">Connect</a>
+        <a href="/resume/">Résumé</a>
       </nav>
     </header>
 
@@ -36,10 +36,11 @@
         </div>
         <form
           class="contact-form ds-paper"
-          action="https://formspree.io/f/REPLACE_WITH_FORM_ID"
+          action="https://formspree.io/f/xwlewwpl"
           method="POST"
         >
-          <label>
+          <input type="hidden" name="_subject" value="New portfolio connection">
+          <label class="contact-form__wide">
             <span class="ds-label">Name</span>
             <input class="ds-input" name="name" autocomplete="name" required>
           </label>
@@ -48,35 +49,67 @@
             <input class="ds-input" name="email" type="email" autocomplete="email" required>
           </label>
           <label>
-            <span class="ds-label">How should I reach out?</span>
-            <select class="ds-input" name="preferred_contact">
-              <option>Email first</option>
-              <option>Phone call</option>
-              <option>Text message</option>
-              <option>LinkedIn</option>
-            </select>
+            <span class="ds-label">Phone number</span>
+            <input class="ds-input" name="phone" type="tel" autocomplete="tel" inputmode="tel">
           </label>
-          <label>
-            <span class="ds-label">What are you reaching out about?</span>
-            <select class="ds-input" name="intent">
-              <option>Hiring for a product design role</option>
-              <option>Freelance website or design work</option>
-              <option>Creative development project</option>
-              <option>Internal tool or workflow problem</option>
-              <option>Something else</option>
-            </select>
-          </label>
+          <div class="contact-form__field">
+            <span class="ds-label" id="preferred-contact-label">How should I reach out?</span>
+            <div class="ds-dropdown" data-dropdown>
+              <input type="hidden" name="preferred_contact" value="Email first" data-dropdown-input>
+              <button
+                class="ds-dropdown__trigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-labelledby="preferred-contact-label preferred-contact-value"
+                aria-controls="preferred-contact-options"
+              >
+                <span id="preferred-contact-value" data-dropdown-value>Email first</span>
+              </button>
+              <div class="ds-dropdown__menu" id="preferred-contact-options" role="listbox" aria-labelledby="preferred-contact-label">
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Email first" aria-selected="true">Email first</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Phone call" aria-selected="false">Phone call</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Text message" aria-selected="false">Text message</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="LinkedIn" aria-selected="false">LinkedIn</button>
+              </div>
+            </div>
+          </div>
+          <div class="contact-form__field">
+            <span class="ds-label" id="contact-intent-label">What are you reaching out about?</span>
+            <div class="ds-dropdown" data-dropdown>
+              <input type="hidden" name="intent" value="Hiring for a product design role" data-dropdown-input>
+              <button
+                class="ds-dropdown__trigger"
+                type="button"
+                aria-haspopup="listbox"
+                aria-expanded="false"
+                aria-labelledby="contact-intent-label contact-intent-value"
+                aria-controls="contact-intent-options"
+              >
+                <span id="contact-intent-value" data-dropdown-value>Hiring for a product design role</span>
+              </button>
+              <div class="ds-dropdown__menu" id="contact-intent-options" role="listbox" aria-labelledby="contact-intent-label">
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Hiring for a product design role" aria-selected="true">Hiring for a product design role</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Freelance website or design work" aria-selected="false">Freelance website or design work</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Creative development project" aria-selected="false">Creative development project</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Internal tool or workflow problem" aria-selected="false">Internal tool or workflow problem</button>
+                <button class="ds-dropdown__option" type="button" role="option" data-value="Something else" aria-selected="false">Something else</button>
+              </div>
+            </div>
+          </div>
           <label class="contact-form__wide">
             <span class="ds-label">Project, role, or problem</span>
-            <textarea class="ds-input" name="message" rows="7" required placeholder="A few sentences is perfect. What do you need, what is broken, and what would success look like?"></textarea>
+            <textarea class="ds-input" name="message" rows="4" required placeholder="A few sentences is perfect. What do you need, what is broken, and what would success look like?"></textarea>
           </label>
-          <button class="ds-button ds-button--yellow" type="submit">Send message</button>
-          <p class="form-note">Replace the Formspree form ID before launch. I will share direct phone or email details after I reply.</p>
+          <div class="contact-form__actions">
+            <button class="ds-button ds-button--yellow" type="submit">Send message</button>
+            <p class="form-note">Your message is sent securely through Formspree. I’ll reply using your preferred contact method and share direct contact details when I respond.</p>
+          </div>
         </form>
       </section>
     </main>
 
     <aside id="bg-status" aria-live="polite"></aside>
-    <script type="module" src="/webpage/page.js"></script>
+    <script type="module" src="/js/site.js"></script>
   </body>
 </html>

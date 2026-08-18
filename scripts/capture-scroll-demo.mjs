@@ -7,8 +7,8 @@ const chromePath = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome
 const siteUrl =
   process.env.CAPTURE_SITE_URL ||
   "https://portfolio.alyx-linch.workers.dev";
-const frameDirectory = path.join(root, "webpage", "assets", "scroll-demo-frames");
-const outputPath = path.join(root, "webpage", "assets", "scroll-demo-boomerang.mp4");
+const frameDirectory = path.join(root, "assets", "scroll-demo-frames");
+const outputPath = path.join(root, "assets", "scroll-demo-boomerang.mp4");
 const width = 960;
 const height = 600;
 const fps = 30;
@@ -29,7 +29,7 @@ const chrome = spawn(
     "--use-angle=swiftshader",
     "--hide-scrollbars",
     `--window-size=${width},${height}`,
-    `${siteUrl.replace(/\/$/, "")}/scroll-demo/`
+    `${siteUrl.replace(/\/$/, "")}/studio/tools/scroll-demo/`
   ],
   {
     stdio: ["ignore", "ignore", "inherit", "pipe", "pipe"]
@@ -111,7 +111,7 @@ try {
   await wait(700);
   const { targetInfos } = await send("Target.getTargets");
   const pageTarget = targetInfos.find(
-    (target) => target.type === "page" && target.url.includes("/scroll-demo/")
+    (target) => target.type === "page" && target.url.includes("/studio/tools/scroll-demo/")
   );
 
   if (!pageTarget) {
